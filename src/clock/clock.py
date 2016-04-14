@@ -5,7 +5,7 @@ import os
 
 def job_function():
     url = os.environ.get("TRIGGER_URL")
-    request = Request(url)
+    request = Request(urlheroku)
     response = urlopen(request)
     kittens = response.read()
     print("Hello World")
@@ -15,6 +15,6 @@ def job_function():
 sched = BlockingScheduler()
 
 # Schedule job_function to be called every two hours
-sched.add_job(job_function, 'interval', seconds=2)
+sched.add_job(job_function, 'interval', seconds=3)
 
 sched.start()

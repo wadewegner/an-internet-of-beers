@@ -6,13 +6,12 @@ import os, sys
 def job_function():
     print("running ...")
     url = os.environ.get("TRIGGER_URL")
-    request = Request(urlheroku)
+    request = Request(url)
     response = urlopen(request)
     kittens = response.read()
     print("Hello World")
     print(url)
     print(kittens)
-    sys.stdout.write("hello world")
 
 sched = BlockingScheduler()
 

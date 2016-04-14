@@ -57,7 +57,8 @@ app.get('/logout', function(request, response) {
 
 // trigger
 app.get('/trigger', function(request, response) {
-  response.send('trigger')
+  console.log('triggered');
+  response.send('trigger');
 });
 
 

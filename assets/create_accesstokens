@@ -1,0 +1,6 @@
+CREATE TABLE accesstokens (
+	id		bigserial primary key,
+	token	varchar(100) NOT NULL,
+	uid		varchar(100) NOT NULL,
+	date_added	timestamp default current_timestamp
+)

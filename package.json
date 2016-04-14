@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "ejs": "2.4.1",
-    "express": "4.13.4"
+    "express": "4.13.4",
+    "requestify": "0.1.17",
+    "pg": "4.5.3"
   },
   "keywords": [],
   "author": "Wade Wegner",

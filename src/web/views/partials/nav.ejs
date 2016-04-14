@@ -4,13 +4,20 @@
       <li class="active">
         <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
       </li>
+      <% if (accessToken) { %>
       <li>
-        <a href="#"><span class="glyphicon glyphicon-user"></span> Sign In</a>
+        <a href="/profile"><span class="glyphicon glyphicon-book"></span> Profile</a>
       </li>
+      <
+      <% } %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="navbar-right">
-        <a href="http://www.wadewegner.com"><span class="glyphicon glyphicon-book"></span> Wade Wegner</a>
+      <% if (accessToken) { %>
+        <a href="/logout"><span class="glyphicon glyphicon-user"></span> Sign Out</a>
+      <% } else { %>
+        <a href="<%= signinUrl %>"><span class="glyphicon glyphicon-user"></span> Sign In</a>
+      <% } %>
       </li>
     </ul>
   </div>

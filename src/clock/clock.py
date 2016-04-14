@@ -1,9 +1,10 @@
 from datetime import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from urllib2 import Request, urlopen, URLError
-import os
+import os, sys
 
 def job_function():
+	print("running ...")
     url = os.environ.get("TRIGGER_URL")
     request = Request(urlheroku)
     response = urlopen(request)
@@ -11,6 +12,7 @@ def job_function():
     print("Hello World")
     print(url)
     print(kittens)
+    sys.stdout.write("hello world")
 
 sched = BlockingScheduler()
 

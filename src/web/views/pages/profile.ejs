@@ -7,6 +7,16 @@
     <% include ../partials/nav.ejs %>
     <div class="jumbotron text-center">
       <div class="container">
+
+        <form id="profileform" action="profile" method="post">
+          <div>
+            <label for="phone">Phone: </label>
+            <input type="text" id="phone" name="phone"></input>
+          </div>
+          <input type="submit" value="Submit"></input>
+        </form>
+
+
       </div>
     </div>
   </body>

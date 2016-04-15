@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var pg = require('pg');
-
+var bodyParser = require('body-parser');
 
 // First, checks if it isn't implemented yet.
 if (!String.prototype.format) {
@@ -15,6 +15,12 @@ if (!String.prototype.format) {
     });
   };
 }
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -48,6 +54,17 @@ app.get('/profile', function(request, response) {
   });
 });
 
+app.post('/profile', function(request, response) {
+
+  console.log(request);
+  console.log(request.body);
+  console.log(request.body.phone);
+
+  var phone = request.body.phone;
+  response.send(phone);
+
+});
+
 // logout
 app.get('/logout', function(request, response) {
   accessToken = '';
@@ -58,6 +75,11 @@ app.get('/logout', function(request, response) {
 // trigger
 app.get('/trigger', function(request, response) {
   console.log('triggered');
+
+  // get details and tokens for registered users
+
+
+
   response.send('trigger');
 });
 
@@ -68,7 +90,6 @@ app.get('/callback', function(request, response) {
 	code = request.query.code;
 
 	var url = 'https://untappd.com/oauth/authorize/?client_id={0}&client_secret={1}&response_type=code&redirect_url={2}&code={3}'.format(clientId, clientSecret, redirectUrl, code);
-
 	var requestify = require('requestify');
 
 	requestify.get(url).then(function(response2) {
@@ -154,7 +175,8 @@ app.get('/callback', function(request, response) {
           console.log(result);
         });
 
-        var query = "INSERT INTO accesstokens (token, uid) VALUES ('" + accessToken + "','" + uid + "')";
+        var query = "INSERT INTO accesstokens (token, uid) SELECT '" + accessToken + "','" + uid + 
+          "' WHERE NOT EXISTS ( SELECT token FROM accesstokens WHERE uid = '" + uid + "')";
 
         client.query(query, function(err, result) {
           if (err) throw err;

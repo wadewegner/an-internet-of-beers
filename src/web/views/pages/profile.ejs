@@ -19,7 +19,7 @@
       <div class="form-group">
         <label for="phone" class="col-sm-2 control-label">Mobile Phone</label>
         <div class="col-xs-2">
-          <input type="text" class="form-control" id="phone" name="phone" placeholder="555-555-5555" >
+          <input type="text" class="form-control" id="phone" name="phone" placeholder="555-555-5555" value="<%=mobilePhone%>">
         </div>
       </div>
     <div>
@@ -28,15 +28,15 @@
       <div class="form-group">
         <label for="weight" class="col-sm-2 control-label">Weight (in lbs)</label>
         <div class="col-xs-2">
-          <input type="text" class="form-control" id="weight" name="weight" placeholder="150">
+          <input type="text" class="form-control" id="weight" name="weight" placeholder="150" value="<%=weight%>">
         </div>
       </div>
       <div class="form-group">
         <label for="weight" class="col-sm-2 control-label">Gender</label>
         <div class="col-xs-2">
           <select class="form-control" id="gender" name="gender">
-            <option>Male</option>
-            <option>Female</option>
+            <option<% if (isMale) { %> selected<% } %>>Male</option>
+            <option<% if (!isMale) { %> selected<% } %>>Female</option>
           </select>
         </div>
       </div>
@@ -50,5 +50,35 @@
   </div>
 
 </div>
+
+<% if (updated) { %>
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
+  toastr["success"]("You have successfully updated your profile.", "Success")
+});
+
+</script>
+<% } %>
+
 </body>
 </html>

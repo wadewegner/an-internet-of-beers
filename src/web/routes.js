@@ -1,3 +1,4 @@
+var config = require('./config/config.js');
 
 function parseCookies (request) {
 	var list = {},
@@ -26,7 +27,7 @@ module.exports = function(app) {
 		};
 	}
 
-	app.locals.signinUrl = 'https://untappd.com/oauth/authenticate/?client_id={0}&response_type=code&redirect_url={1}'.format(process.env.CLIENT_ID, process.env.REDIRECT_URL);
+	app.locals.signinUrl = config.untappd.signin_url.format(process.env.CLIENT_ID, process.env.REDIRECT_URL);
 
 	app.use(function (request, response, next) {
 		console.log('Page: ' + request.originalUrl)
@@ -74,12 +75,17 @@ module.exports = function(app) {
 
 	// trigger
 	app.get('/trigger', function(request, response) {
-		console.log('  triggered');
 
-		// get details and tokens for registered users
-		response.send('trigger');
+		var trigger = require('./apis/trigger');
+		trigger.get();
+
+		response.send('ok');
 	});
 
+	app.get('/webgook', function(request, response) {
+		
+		response.send('ok');
+	});
 
 	// oauth callback
 	app.get('/callback', function(request, response) {

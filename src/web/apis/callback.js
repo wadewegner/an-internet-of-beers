@@ -1,4 +1,4 @@
-var pg = require('pg');
+var postgres = require('../db/postgres.js');
 
 module.exports = {
 	get: function (request, response) {
@@ -16,11 +16,6 @@ module.exports = {
 		requestify.get(url).then(function(response2) {
 
 			var accessToken = response2.getBody().response.access_token;
-
-//			response.cookie('accessToken', accessToken);
-
-			console.log(accessToken);
-
 			var userInfoUrl = 'https://api.untappd.com/v4/user/info?access_token={0}'.format(accessToken);
 
 			requestify.get(userInfoUrl).then(function(response3) {
@@ -50,70 +45,34 @@ module.exports = {
 				setCookies.push('userName=' + user_name);
 				response.setHeader("Set-Cookie", setCookies);
 
-				console.log('db url: ' + process.env.DATABASE_URL);
+				postgres.insert_uptappduser(
+					uid,
+					user_name,
+					facebook,
+					bio,
+					location,
+					email_address,
+					user_avatar_hd,
+					user_avatar,
+					first_name,
+					foursquare,
+					untappd_url,
+					last_name,
+					twitter,
+					url,
+					user_cover_photo,
+					id,
+					function(result) {
 
-				pg.defaults.ssl = true;
-				console.log('1');
-				pg.connect(process.env.DATABASE_URL, function(err, client) {
-									console.log('2');
-					if (err) throw err;
+						postgres.insert_accessToken(
+							accessToken,
+							uid,
+							function(result) {
 
-					var query = "INSERT INTO salesforce.untappduser__c (" +
-					"uid__c," +
-					"user_name__c," +
-					"facebook__c," +
-					"bio__c," +
-					"location__c," +
-					"email_address__c," +
-					"user_avatar_hd__c," +
-					"user_avatar__c," +
-					"first_name__c," +
-					"foursquare__c," +
-					"untappd_url__c," +
-					"last_name__c," +
-					"twitter__c," +
-					"url__c," +
-					"user_cover_photo__c," +
-					"id__c," +
-					"name) " +
-					"SELECT '" +
-					uid + "','" +
-					user_name + "','" +
-					facebook + "','" +
-					bio + "','" +
-					location + "','" +
-					email_address + "','" +
-					user_avatar_hd + "','" +
-					user_avatar + "','" +
-					first_name + "','" +
-					foursquare + "','" +
-					untappd_url + "','" +
-					last_name + "','" +
-					twitter + "','" +
-					url + "','" +
-					user_cover_photo + "','" +
-					id + "','" +
-					id + "' WHERE NOT EXISTS ( SELECT id__c FROM salesforce.untappduser__c WHERE id__c = '" + id + "' )";
+								response.redirect('/profile');
 
-					console.log(query);
-
-					client.query(query, function(err, result) {
-						if (err) throw err;
-
-						console.log(result);
+							});
 					});
-
-					var query = "INSERT INTO accesstokens (token, uid) SELECT '" + accessToken + "','" + uid + 
-					"' WHERE NOT EXISTS ( SELECT token FROM accesstokens WHERE uid = '" + uid + "')";
-
-					client.query(query, function(err, result) {
-						if (err) throw err;
-
-						console.log(result);
-					});
-
-					response.redirect('/profile');
-				});
 			});
 		});
 	}

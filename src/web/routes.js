@@ -12,6 +12,29 @@ function parseCookies (request) {
 	return list;
 }
 
+var token = process.env.FACEBOOK_PAGE_TOKEN;
+
+function sendTextMessage(sender, text) {
+  messageData = {
+    text:text
+  }
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending message: ', error);
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error);
+    }
+  });
+}
+
 module.exports = function(app) {
 
 	// First, checks if it isn't implemented yet.
@@ -104,6 +127,8 @@ module.exports = function(app) {
 				// Handle a text message from this sender
 
 				console.log('  from FB: ' + text);
+
+				sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
 			}
 		}
 		response.sendStatus(200);

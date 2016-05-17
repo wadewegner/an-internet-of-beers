@@ -98,6 +98,12 @@ module.exports = function(app) {
 
 	});
 
+	// privacy.ejs
+	app.get('/privacy', function(request, response) {
+
+		response.render('pages/privacy', {});
+	});
+
 	// trigger
 	app.get('/trigger', function(request, response) {
 

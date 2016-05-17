@@ -15,7 +15,8 @@
     "pg": "4.5.3",
     "requestify": "0.1.17",
     "twilio": "2.9.1",
-    "moment": "2.13.0"
+    "moment": "2.13.0",
+    "request": "2.72.0"
   },
   "keywords": [],
   "author": "Wade Wegner",

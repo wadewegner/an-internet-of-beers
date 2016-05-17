@@ -82,8 +82,8 @@ module.exports = function(app) {
 		response.send('ok');
 	});
 
-	app.get('/webgook', function(request, response) {
-		
+	app.get('/webhook', function(request, response) {
+
 		response.send('ok');
 	});
 

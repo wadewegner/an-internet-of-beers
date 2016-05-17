@@ -84,7 +84,7 @@ module.exports = function(app) {
 
 	app.get('/webhook', function(request, response) {
 
-		response.send('ok');
+		response.send('2134648937');
 	});
 
 	// oauth callback

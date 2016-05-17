@@ -84,7 +84,11 @@ module.exports = function(app) {
 
 	app.get('/webhook', function(request, response) {
 
-		response.send('2134648937');
+		if (request.query['hub.verify_token'] === 'myverifytoken') {
+		    response.send(request.query['hub.challenge']);
+		}
+		
+		response.send('Error, wrong validation token');
 	});
 
 	// oauth callback

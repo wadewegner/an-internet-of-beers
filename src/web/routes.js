@@ -68,11 +68,11 @@ module.exports = function(app) {
 		response.locals.lastName = lastName;
 		response.locals.userName = userName;
 
-		console.log('  cookies: ' + JSON.stringify(cookies)); 
-		console.log('  accessToken: ' + accessToken);
-		console.log('  firstName :' + firstName);
-		console.log('  lastName: ' + lastName);
-		console.log('  userName: ' + userName);
+		// console.log('  cookies: ' + JSON.stringify(cookies)); 
+		// console.log('  accessToken: ' + accessToken);
+		// console.log('  firstName :' + firstName);
+		// console.log('  lastName: ' + lastName);
+		// console.log('  userName: ' + userName);
 
 		next();
 	})

@@ -5,6 +5,7 @@ var async = require('async');
 var moment = require('moment');
 
 function buildCheckinValues(checkins) {
+
 	var checkinValues = '';
 
 	for (var i = 0; i < checkins.length; i++) {
@@ -54,6 +55,8 @@ module.exports = {
 
 	insertNewCheckins: function (callback) {
 
+		console.log('insertNewCheckins ...');		
+
 		postgres.get_tokens(function(tokenResult) {
 
 			async.each(tokenResult.rows, function(item, callback2){
@@ -79,6 +82,7 @@ module.exports = {
 	},
 	processNewCheckins: function(callback) {
 
+		console.log('processNewCheckins ...');
 
 		postgres.get_unprocessedCheckins(function(unprocessedCheckins){
 

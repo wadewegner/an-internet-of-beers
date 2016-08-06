@@ -1,2 +1,2 @@
 web: node src/web/index.js
-clock: python src/clock/clock.py
+clock: node src/clock/index.js

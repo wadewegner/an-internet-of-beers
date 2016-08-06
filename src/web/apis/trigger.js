@@ -102,7 +102,7 @@ module.exports = {
 					userCheckins.push(user_name)
 				}
 
-				// update record and mark as processed
+				//TODO: update record and mark as processed
 
 				callback2();
 			},
@@ -114,8 +114,6 @@ module.exports = {
 
 				// calculate their bac
 				async.each(noDupes, function(userName, callback3){
-
-					console.log(userName);
 
 					postgres.get_profile(userName, function(profile) {
 
@@ -138,33 +136,31 @@ module.exports = {
 							var count = recentCheckins.rowCount;
 							var beers = [];
 
-							console.log('started at ' + earliestDrinkAt + ' and drank ' + count + ' beers.');
+							// console.log(userName + ' started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers.');
 
+							//TODO: async?
 							for (var i = 0; i < count; i++) {
 								beers.push({
 									abv: recentCheckins.rows[i].beer_abv__c,
 									ounces: (recentCheckins.rows[i].beer_ounces__c / 100)
 								});
-
-								// console.log(result.rows[i]);
 							};
 
+							var weightInKgs = bac.poundsToKgs(weight);
+							var waterPercentage = bac.waterPercentage(isMale);
+							var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
+							var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+							var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
 
-						// 	var weightInKgs = bac.poundsToKgs(weight);
-						// 	var waterPercentage = bac.waterPercentage(isMale);
-						// 	var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
-
-						// 	var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-						// 	var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-
-						// 	// send text
-						// 	var twilio = require('./twilio.js');
-						// 	var accountSid = process.env.TWILIO_SID;
-						// 	var authToken = process.env.TWILIO_TOKEN;
-						// 	var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
-						// 	var message = 'You just checked in! Your bac is ' + bacAfterElapsedTime.toFixed(3) + '.';
-						// 	console.log('  ' + message);
+							// send text
+							var twilio = require('./twilio.js');
+							var accountSid = process.env.TWILIO_SID;
+							var authToken = process.env.TWILIO_TOKEN;
+							var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
+							var message = 'You just checked in! Your bac is ' + bacAfterElapsedTime.toFixed(3) + '.';
+							
+							console.log(message);
 
 						// 	console.log('  phone: ' + toPhoneNumber);
 

@@ -95,8 +95,10 @@ module.exports = {
 				var beer_ounces = item.beer_ounces__c;
 				var user_name = item.user_name__c;
 
+				//TODO: this will cause txts to be sent out all the time, right?
+
 				// check to see if it's in the last 3.5 hours
-				if (difference < 3.5)
+				if (difference < 6)
 				{
 					// if it is, store username
 					userCheckins.push(user_name)
@@ -122,7 +124,8 @@ module.exports = {
 						//TODO: get this from profile;
 						var metabolism = .012;
 						var now = new Date();
-						var since = new Date(now - 210 * 60000).toISOString();
+						// last 6 hours; 60 minutes
+						var since = new Date(now - 360 * 60000).toISOString();
 
 						postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 

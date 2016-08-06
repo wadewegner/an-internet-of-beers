@@ -1,6 +1,5 @@
 var assert = require('chai').assert;
 var config = require('../src/web/config/config.js');
-var moment = require('moment');
 
 require('dotenv').load();
 
@@ -28,8 +27,14 @@ describe('Database', function() {
 	var isMale = true;
 	var metabolism = .012;
 	var mobilePhone = '1-555-867-5309';
-	var date1 = moment().subtract(2, 'hours').format();
-	var date2 = moment().subtract(1, 'hours').format();
+
+	var now = new Date();
+	var date1 = new Date(now - 120 * 60000).toISOString();
+//	var date1 = moment().subtract(2, 'hours').format();
+	// var date2 = moment().subtract(1, 'hours').format();
+	var date2 = new Date(now - 60 * 60000).toISOString();
+	var date3 = new Date(now - 121 * 60000).toISOString();
+	var date4 = new Date(now - 360 * 60000).toISOString();
 
 	describe('Connect', function() {
 		it('should connect to the Postgres database defined in the .env file', function(done) {
@@ -225,17 +230,15 @@ describe('Database', function() {
 				function(result) {
 
 					assert.equal(result.command, 'INSERT');
-					assert.equal(result.rowCount, 2);
-
-					var now = moment().subtract(2, 'hours').subtract(1, 'minute').format();
+					assert.equal(result.rowCount, 2, 'insert_bulkBeer');
 
 					postgres.get_recentCheckins(
 						uid,
-						now,
+						date3,
 						function(result) {
 
 							assert.equal(result.command, 'SELECT');
-							assert.equal(result.rowCount, 2);
+							assert.equal(result.rowCount, 2, 'recentCheckins');
 
 							done();
 						});
@@ -244,29 +247,28 @@ describe('Database', function() {
 
 		it('should get all checkins from the last six hours and calculate the correct bac', function(done) {
 
-			var now = moment().subtract(6, 'hours').format();
-
 			postgres.get_recentCheckins(
 				uid,
-				now,
+				date4,
 				function(result) {
 					assert.equal(result.command, 'SELECT');
-					assert.equal(result.rowCount, 2);
+					assert.equal(result.rowCount, 2, "recentCheckins");
 
 					// calculate the earliest drink
 					assert.isDefined(result.rows);
 					assert.isDefined(result.rows[0]);
 					assert.isDefined(result.rows[1]);
 
-					assert.equal(moment(result.rows[0].consumed_at__c).format(), date1);
-					assert.equal(moment(result.rows[1].consumed_at__c).format(), date2);
+					assert.equal(new Date(result.rows[0].consumed_at__c).toISOString(), date1);
+					assert.equal(new Date(result.rows[1].consumed_at__c).toISOString(), date2);
 
 					// check to see if the first drink was metabolized before the next drink
-					var earliestDrinkAt = moment(result.rows[0].consumed_at__c).format();
-					assert.equal(earliestDrinkAt, date1);
+					var earliestDrinkAt = new Date(result.rows[0].consumed_at__c);
+					assert.equal(earliestDrinkAt.toISOString(), date1);
 
-					var totalTimeInHours = moment().diff(earliestDrinkAt, 'hours');
-					assert.equal(totalTimeInHours, 2);
+					var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;	
+
+					assert.equal(totalTimeInHours, 2, "totalTimeInHours");
 
 					var count = result.rowCount;
 					var beers = [];
@@ -293,72 +295,6 @@ describe('Database', function() {
 					done();
 				});
 		});
-
-		// it('should correctly calculate Wade\'s bac from a particular example', function(done) {
-
-		// 	var thenDate = moment('2016-05-07T18:17:50-07:00').utc().format();
-		// 	var queryDate = moment(thenDate).subtract(3.5, 'hours').utc().format();
-		// 	var uid = 'wadewegner';
-
-		// 	console.log(thenDate);
-		// 	console.log(queryDate);
-
-		// 	postgres.get_profile(
-		// 		uid,
-		// 		function(result) {
-					
-		// 			var weight = result.rows[0].weight__c;
-		// 			var isMale = result.rows[0].male__c;
-
-		// 			console.log('test');
-
-		// 			postgres.get_recentCheckins(
-		// 				uid,
-		// 				queryDate,
-		// 				function(result) {
-		// 					assert.equal(result.command, 'SELECT');
-		// 					// assert.equal(result.rowCount, 2);
-
-		// 					// calculate the earliest drink
-		// 					assert.isDefined(result.rows);
-		// 					// assert.isDefined(result.rows[0]);
-		// 					// assert.isDefined(result.rows[1]);
-
-		// 					// check to see if the first drink was metabolized before the next drink
-		// 					var earliestDrinkAt = moment(result.rows[0].consumed_at__c).utc().format();
-
-		// 					console.log('earliestDrinkAt: ' + earliestDrinkAt);
-		// 					console.log('thenDate: ' + thenDate);
-
-		// 					var totalTimeInHours = moment(earliestDrinkAt).diff(moment(thenDate), 'minutes') / 60;
-		// 					console.log(totalTimeInHours);
-
-		// 					var count = result.rowCount;
-		// 					var beers = [];
-
-		// 					for (var i = 0; i < count; i++) {
-		// 						beers.push({
-		// 							abv: result.rows[i].beer_abv__c,
-		// 							ounces: (result.rows[i].beer_ounces__c / 100)
-		// 						});
-		// 					};
-
-		// 					var bac = require('bac.js');
-
-		// 					var weightInKgs = bac.poundsToKgs(weight);
-		// 					var waterPercentage = bac.waterPercentage(isMale);
-		// 					var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
-
-		// 					var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-		// 					console.log(bacTotalTheoreticalPeak);
-
-		// 					var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-		// 					console.log(bacAfterElapsedTime);
-
-		// 					done();
-		// 				});
-		// 		});
-		// });
 
 		it('should delete the four test beer checkins', function(done) {
 

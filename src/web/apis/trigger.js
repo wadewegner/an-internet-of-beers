@@ -108,8 +108,6 @@ module.exports = {
 			},
 			function(err){
 
-				// check collection of users with recent checkins
-				// console.log(userCheckins);
 				var noDupes = ArrNoDupe(userCheckins);
 
 				// calculate their bac
@@ -128,15 +126,11 @@ module.exports = {
 
 						postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 
-							// check to see if the first drink was metabolized before the next drink
 							var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
-							// var totalTimeInHours = new Date(earliestDrinkAt).diff(moment(), 'minutes') / 60;
 							var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
 
 							var count = recentCheckins.rowCount;
 							var beers = [];
-
-							// console.log(userName + ' started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers.');
 
 							//TODO: async?
 							for (var i = 0; i < count; i++) {
@@ -149,7 +143,6 @@ module.exports = {
 							var weightInKgs = bac.poundsToKgs(weight);
 							var waterPercentage = bac.waterPercentage(isMale);
 							var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
-
 							var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
 							var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
 
@@ -158,37 +151,23 @@ module.exports = {
 							var accountSid = process.env.TWILIO_SID;
 							var authToken = process.env.TWILIO_TOKEN;
 							var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
+							var sendTxt = process.env.SEND_TXT;
 							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '.';
-							
-							console.log(message);
+						
+							if (sentTxt = '1') {
 
-							// console.log('  phone: ' + toPhoneNumber);
-
-							twilio.sendTxt(accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, function(result) {
-
-								// assert.equal(result.to, toPhoneNumber);
-								// assert.equal(result.from, fromPhoneNumber);
-								// assert.equal(result.status, 'queued');
-								// assert.equal(result.price, null);
-								// assert.equal(result.error_message, null);
-
-								console.log('  txt status: ' + result.status);
-
-								// send txt
+								twilio.sendTxt(accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, function(result) {
+									callback();
+								});
+							} else {
 								callback();
-							});
+							}
 						});
 					});
-
 				},function(err2){
 					callback();
 				});
 			});
-
 		});
-
-		
-
-
 	}
 };

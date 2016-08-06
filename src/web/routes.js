@@ -105,18 +105,9 @@ module.exports = function(app) {
 	});
 
 	// trigger new checkins
-	app.get('/newcheckins', function(request, response) {
-
-		var trigger = require('./apis/newCheckins');
-		trigger.get();
-
-		response.send('ok');
-	});
-
-	// trigger new checkins
 	app.get('/trigger', function(request, response) {
 
-		var trigger = require('./apis/newCheckins');
+		var trigger = require('./apis/trigger');
 
 		trigger.insertNewCheckins(function(result) {
 			trigger.processNewCheckins(function(result2) {

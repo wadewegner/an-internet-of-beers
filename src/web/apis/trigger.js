@@ -53,7 +53,7 @@ function ArrNoDupe(a) {
 module.exports = {
 
 	insertNewCheckins: function (callback) {
-
+console.log('start');
 		postgres.get_tokens(function(tokenResult) {
 
 			async.each(tokenResult.rows, function(item, callback2){
@@ -95,18 +95,19 @@ module.exports = {
 				var beer_ounces = item.beer_ounces__c;
 				var user_name = item.user_name__c;
 
-				//TODO: this will cause txts to be sent out all the time, right?
-
-				// check to see if it's in the last 3.5 hours
+				// check to see if it's in the last 6 hours
 				if (difference < 6)
 				{
 					// if it is, store username
+					// to later send a notification
 					userCheckins.push(user_name)
 				}
 
-				//TODO: update record and mark as processed
-
-				callback2();
+				// update record and mark as processed
+				postgres.update_processCheckins(item.bid__c, function(){
+					callback2();
+				});
+				// callback2();
 			},
 			function(err){
 
@@ -157,13 +158,14 @@ module.exports = {
 							var sendTxt = process.env.SEND_TXT;
 							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '.';
 						
-							if (sentTxt = '1') {
+							console.log(userName + ': ' + message);
 
+							if (sendTxt == '1') {
 								twilio.sendTxt(accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, function(result) {
-									callback();
+									callback3();
 								});
 							} else {
-								callback();
+								callback3();
 							}
 						});
 					});

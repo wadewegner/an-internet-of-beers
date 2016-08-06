@@ -45,22 +45,19 @@ function execute (sql, showLogs, result) {
 
 		});
 	});
-
 }
 
-// function insert_bulkBeerCheckins (checkinValues) {
-// console.log('testing');
-// 	var sql = "with data(id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c) as (values " + checkinValues +
-// 		") insert into salesforce.untappdbeercheckins__c (id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c)" +
-// 		"select d.id, d.checkin_id__c, d.created_at__c, d.consumed_at__c, d.bid__c, d.beer_abv__c, d.name, d.user_name__c, d.beer_ounces__c, d.stomach_fullness__c " +
-// 		"from data d where not exists (select 1 from salesforce.untappdbeercheckins__c u2 where u2.id = d.id)";
-
-// 	execute(sql, false, function(executeResult) {
-// 		return executeResult;
-// 	});	
-// }
-
 module.exports = {
+
+	update_processCheckins: function(id, result) {
+		var sql = "UPDATE salesforce.untappdbeercheckins__c " +
+			"SET processed__c = true " +
+			"WHERE bid__c = '" + id + "'"
+
+		execute(sql, false, function(executeResult) {
+			result(executeResult);
+		});
+	},
 
 	get_unprocessedCheckins: function (result) {
 		var sql = "SELECT bid__c, consumed_at__c, beer_abv__c, beer_ounces__c, user_name__c FROM salesforce.untappdbeercheckins__c WHERE " + 
@@ -104,7 +101,6 @@ module.exports = {
 	},
 
 	get_tokens: function (result) {
-
 
 		var sql = "SELECT id, token, uid FROM accesstokens";
 

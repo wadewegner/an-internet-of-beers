@@ -6,7 +6,7 @@ require('dotenv').load();
 
 describe('Trigger', function() {
 
-	this.timeout(15000);
+	this.timeout(30000);
 
 	before(function(done) {
 		done();

@@ -48,18 +48,38 @@ function execute (sql, showLogs, result) {
 
 }
 
+// function insert_bulkBeerCheckins (checkinValues) {
+// console.log('testing');
+// 	var sql = "with data(id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c) as (values " + checkinValues +
+// 		") insert into salesforce.untappdbeercheckins__c (id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c)" +
+// 		"select d.id, d.checkin_id__c, d.created_at__c, d.consumed_at__c, d.bid__c, d.beer_abv__c, d.name, d.user_name__c, d.beer_ounces__c, d.stomach_fullness__c " +
+// 		"from data d where not exists (select 1 from salesforce.untappdbeercheckins__c u2 where u2.id = d.id)";
+
+// 	execute(sql, false, function(executeResult) {
+// 		return executeResult;
+// 	});	
+// }
+
 module.exports = {
+
+	get_unprocessedCheckins: function (result) {
+		var sql = "SELECT bid__c, consumed_at__c, beer_abv__c, beer_ounces__c, user_name__c FROM salesforce.untappdbeercheckins__c WHERE " + 
+			"processed__c is null OR processed__c = false ORDER BY consumed_at__c ASC";
+
+		execute(sql, false, function(executeResult) {
+			result(executeResult);
+		});
+	},
 
 	get_recentCheckins: function (userName, since_datetime, result) {
 
-		var sql = "SELECT consumed_at__c, beer_abv__c, beer_ounces__c FROM salesforce.untappdbeercheckins__c WHERE " + 
+		var sql = "SELECT consumed_at__c AT TIME ZONE 'UTC' as consumed_at__c, beer_abv__c, beer_ounces__c FROM salesforce.untappdbeercheckins__c WHERE " + 
 			"consumed_at__c > '" + since_datetime + "' AND " +
 			"user_name__c = '" + userName + "' ORDER BY consumed_at__c ASC";
 
-		execute(sql, true, function(executeResult) {
+		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});
-
 	},
 
 	insert_bulkBeerCheckins: function (checkinValues, result) {
@@ -72,7 +92,6 @@ module.exports = {
 		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});	
-
 	},
 
 	delete_beerCheckin: function(id, result) {

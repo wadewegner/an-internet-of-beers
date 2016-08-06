@@ -104,13 +104,25 @@ module.exports = function(app) {
 		response.render('pages/privacy', {});
 	});
 
-	// trigger
-	app.get('/trigger', function(request, response) {
+	// trigger new checkins
+	app.get('/newcheckins', function(request, response) {
 
-		var trigger = require('./apis/trigger');
+		var trigger = require('./apis/newCheckins');
 		trigger.get();
 
 		response.send('ok');
+	});
+
+	// trigger new checkins
+	app.get('/trigger', function(request, response) {
+
+		var trigger = require('./apis/newCheckins');
+
+		trigger.insertNewCheckins(function(result) {
+			trigger.processNewCheckins(function(result2) {
+				response.send('ok');
+			});
+		});
 	});
 
 	app.get('/webhook', function(request, response) {

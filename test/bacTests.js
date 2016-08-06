@@ -1,7 +1,6 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
-
-var bac = require('../src/web/apis/bac.js');
+var bac = require('bac');
 
 describe('BAC', function() {
 

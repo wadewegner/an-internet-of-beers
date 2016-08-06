@@ -17,7 +17,6 @@ describe('Database', function() {
 
 	this.timeout(15000);
 
-
 	before(function(done) {
 		done();
 	});
@@ -34,7 +33,6 @@ describe('Database', function() {
 
 	describe('Connect', function() {
 		it('should connect to the Postgres database defined in the .env file', function(done) {
-
 
 			var pg = require('pg');
 			pg.defaults.ssl = true;
@@ -280,7 +278,7 @@ describe('Database', function() {
 						});
 					};
 
-					var bac = require('../src/web/apis/bac.js');
+					var bac = require('bac');
 
 					var weightInKgs = bac.poundsToKgs(weight);
 					var waterPercentage = bac.waterPercentage(isMale);
@@ -345,7 +343,7 @@ describe('Database', function() {
 		// 						});
 		// 					};
 
-		// 					var bac = require('../src/web/apis/bac.js');
+		// 					var bac = require('bac.js');
 
 		// 					var weightInKgs = bac.poundsToKgs(weight);
 		// 					var waterPercentage = bac.waterPercentage(isMale);

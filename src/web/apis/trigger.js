@@ -158,27 +158,25 @@ module.exports = {
 							var accountSid = process.env.TWILIO_SID;
 							var authToken = process.env.TWILIO_TOKEN;
 							var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
-							var message = 'You just checked in! Your bac is ' + bacAfterElapsedTime.toFixed(3) + '.';
+							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '.';
 							
 							console.log(message);
 
-						// 	console.log('  phone: ' + toPhoneNumber);
+							// console.log('  phone: ' + toPhoneNumber);
 
-						// 	// twilio.sendTxt(accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, function(result) {
+							twilio.sendTxt(accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, function(result) {
 
-						// 	// 	// assert.equal(result.to, toPhoneNumber);
-						// 	// 	// assert.equal(result.from, fromPhoneNumber);
-						// 	// 	// assert.equal(result.status, 'queued');
-						// 	// 	// assert.equal(result.price, null);
-						// 	// 	// assert.equal(result.error_message, null);
+								// assert.equal(result.to, toPhoneNumber);
+								// assert.equal(result.from, fromPhoneNumber);
+								// assert.equal(result.status, 'queued');
+								// assert.equal(result.price, null);
+								// assert.equal(result.error_message, null);
 
-						// 	// 	console.log('  txt status: ' + result.status);
-						// 	// });
+								console.log('  txt status: ' + result.status);
 
-
-							// send txt
-
-							callback();
+								// send txt
+								callback();
+							});
 						});
 					});
 

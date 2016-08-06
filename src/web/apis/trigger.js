@@ -53,7 +53,7 @@ function ArrNoDupe(a) {
 module.exports = {
 
 	insertNewCheckins: function (callback) {
-console.log('start');
+
 		postgres.get_tokens(function(tokenResult) {
 
 			async.each(tokenResult.rows, function(item, callback2){

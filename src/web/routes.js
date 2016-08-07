@@ -214,8 +214,8 @@ module.exports = function(app) {
 
 
 					postgres.get_lastCheckin(userName, function(result){
-
-						var id = result[0].id;
+						console.log(result);
+						var id = result.rows[0].id;
 
 						postgres.update_checkin(id, ounces, function(result){
 							console.log(result);

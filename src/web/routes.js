@@ -224,7 +224,7 @@ module.exports = function(app) {
 					});
 
 				} else {
-					message = 'We did not understand. Txt "COOL" for commands.';
+					message = 'We did not understand. Send "COOL" for commands.';
 					twiml.message(message);
 					response.send(twiml);	
 				}

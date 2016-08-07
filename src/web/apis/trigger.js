@@ -55,39 +55,32 @@ module.exports = {
 
 	insertNewCheckins: function (callback) {
 
-		// console.log('insertNewCheckins ...');		
-
 		postgres.get_tokens(function(tokenResult) {
 
 			async.each(tokenResult.rows, function(item, callback2){
 
-				// console.log('item: ' + item);
-
-				// var id = item.id;
 				var accessToken = item.token;
 				var userName = item.uid;
 
 				untappd.checkins(userName, accessToken, function(checkins) {
 
-					var checkinValues = buildCheckinValues(checkins);
+					if (checkins != null) {
+						var checkinValues = buildCheckinValues(checkins);
 
-					// console.log('userName: ' + userName);
-
-					postgres.insert_bulkBeerCheckins(checkinValues, function(result){
-						// console.log(result);
-						callback2();
-					});
+						postgres.insert_bulkBeerCheckins(checkinValues, function(result){
+							callback2();
+						});
+					} else {
+						callback2();						
+					}
 				});
 			},
 			function(err){
-				console.log('ending');
 				callback();
 			});
 		});
 	},
 	processNewCheckins: function(callback) {
-
-		console.log('processNewCheckins ...');
 
 		postgres.get_unprocessedCheckins(function(unprocessedCheckins){
 

@@ -19,9 +19,15 @@ module.exports = {
 
 		requestify.get(url).then(function(response) {
 
-			var checkins = response.getBody().response.checkins.items;
+			var checkins = response.getBody().response.checkins;
+			var items = null;
 
-			result(checkins);
+			if (checkins.count > 0)
+			{
+				items = checkins.items;
+			}
+
+			result(items);
 		});
 	}
 }

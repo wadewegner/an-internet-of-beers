@@ -158,8 +158,8 @@ module.exports = function(app) {
 	// oauth callback
 	app.get('/twilio', function(request, response) {
 
-		var callback = require('./apis/callback');
-		callback.get(request, response);
+		console.log(request);
+		console.log(response);
 
 	});
 

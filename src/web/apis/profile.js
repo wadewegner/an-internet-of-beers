@@ -43,14 +43,19 @@ module.exports = {
 
 				twilio.sendTxt(accountSid, authToken, processedPhone, fromPhoneNumber, message, function(result2) {
 
-					postgres.get_userfromphone(processedPhone, function(result3){
+					var message2 = "Your actual BAC depends on a variety of factors, like genetic makeup, personal health, & recent food consumption. These results are rough estimates & for your personal enjoyment only. Do not rely on these results to drive or work. Never drink & drive.";
 
-						var userName = result3.rows[0].user_name__c;
+					twilio.sendTxt(accountSid, authToken, processedPhone, fromPhoneNumber, message2, function(result3) {
 
-						postgres.insert_sentMessage(userName, message, function(result3){
-							response.render('pages/profile', {weight, isMale, mobilePhone, updated});
+						postgres.get_userfromphone(processedPhone, function(result3){
+
+							var userName = result3.rows[0].user_name__c;
+
+							postgres.insert_sentMessage(userName, message, function(result3){
+								response.render('pages/profile', {weight, isMale, mobilePhone, updated});
+							});
+
 						});
-
 					});
 				});
 		});

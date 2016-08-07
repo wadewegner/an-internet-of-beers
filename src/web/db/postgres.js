@@ -81,7 +81,7 @@ module.exports = {
 
 	insert_sms: function (fromState, fromCity, fromZip, fromCountry, fromPhone, body, result) {
 
-		var sql = "INSERT INTO salesforce.incomingsms__c (from_state__c, from_city__c, from_zip__c, from_country__c, from_phone_cc, body__c) VALUES " +
+		var sql = "INSERT INTO salesforce.incomingsms__c (from_state__c, from_city__c, from_zip__c, from_country__c, from_phone_c, body__c) VALUES " +
 			"('" + 
 			fromState + "', '" + 
 			fromCity + "', '" + 

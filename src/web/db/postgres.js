@@ -194,6 +194,22 @@ module.exports = {
 		});	
 	},
 
+	update_checkin: function (id, ounces, result) {
+
+
+		var sql = "UPDATE salesforce.untappdbeercheckins__c " +
+			"SET beer_ounces__c = " + ounces + "," +
+			"    processed__c = false " +
+			"WHERE id = " + id
+
+		console.log(sql)
+
+		execute(sql, true, function(executeResult) {
+			result(executeResult);
+		});	
+
+	}
+
 	insert_accessToken: function(accessToken, uid, result) {
 
 		var sql = "INSERT INTO accesstokens (token, uid) SELECT '" + accessToken + "','" + uid + 

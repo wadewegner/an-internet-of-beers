@@ -106,11 +106,7 @@ module.exports = function(app) {
 		var trigger = require('./apis/trigger');
 
 		trigger.insertNewCheckins(function(result) {
-			console.log('test1');
-			console.log(result);
 			trigger.processNewCheckins(function(result2) {
-				console.log('test2');
-				console.log(result2);
 				response.send('ok');
 			});
 		});
@@ -177,7 +173,7 @@ module.exports = function(app) {
 
 				if (body.toLowerCase().indexOf('cool') !== -1)
 				{
-					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {ab}".';
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {abv}".';
 					twiml.message(message);
 					response.send(twiml);	
 

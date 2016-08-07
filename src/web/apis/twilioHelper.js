@@ -34,7 +34,10 @@ module.exports = {
 			// last 6 hours; 60 minutes
 			var since = new Date(now - 360 * 60000).toISOString();
 
+			console.log('getCurrentBac: ' + userName);
+
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
+
 				var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
 				var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
 

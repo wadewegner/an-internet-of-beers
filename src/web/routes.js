@@ -159,39 +159,22 @@ module.exports = function(app) {
 	// oauth callback
 	app.post('/twilio', twilio.webhook(), function(request, response) {
 
-		   var twiml = new twilio.TwimlResponse();
-		    twiml.message('This HTTP request came from Twilio!');
-		    response.send(twiml);
+		var fromZip = request.body.FromZip;
+		var fromState = request.body.FromState;
+		var fromCity = request.body.FromCity;
+		var body = request.body.Body;
+		var fromCountry = request.body.FromCountry;
+		var fromPhone = request.body.From;
 
-		// var accountSid = process.env.TWILIO_SID;
-		// var authToken = process.env.TWILIO_TOKEN;
-		// var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
+		var postgres = require('../db/postgres.js');
 
-	 //    if (twilio.validateExpressRequest(request, authToken)) {
+		postgres.insert_sms(fromState, fromCity, fromZip, fromCountry, fromPhone, body, function(result) {
 
-		// 	var fromZip = request.body.FromZip;
-		// 	var fromState = request.body.FromState;
-		// 	var fromCity = request.body.FromCity;
-		// 	var body = request.body.Body;
-		// 	var fromCountry = request.body.FromCountry;
-		// 	var fromPhone = request.body.From;
+			var twiml = new twilio.TwimlResponse();
+			twiml.message('Thanks for writing. No commands yet. Try again later.');
+			response.send(twiml);
 
-		// 	console.log(fromPhone);
-
-		// 	// var twiml = new twilio.TwimlResponse();
-		//     // twiml.message('Thanks ' + fromPhone);
-		//     console.log('testing');
-		//     var message = 'testing from ' + fromPhone;
-		//     // response.send(twiml);
-
-	 //    	// console.log(request.body);
-	 //        // response.sendStatus(200);
-	 //        response.send(message);
-	 //    }
-	 //    else {
-	 //        response.status(403).send('you are not twilio. Buzz off.');
-	 //    }
-
+		});
 	});
 
 	// logout

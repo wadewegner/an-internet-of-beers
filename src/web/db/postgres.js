@@ -79,6 +79,23 @@ module.exports = {
 		});
 	},
 
+	insert_sms: function (fromState, fromCity, fromZip, fromCountry, fromPhone, body, result) {
+
+		var sql = "INSERT INTO salesforce.incomingsms__c (from_state__c, from_city__c, from_zip__c, from_country__c, from_phone_cc, body__c) VALUES " +
+			"('" + 
+			fromState + "', '" + 
+			fromCity + "', '" + 
+			fromZip + "', '" + 
+			fromCountry + "', '" + 
+			fromPhone + "', '" + 
+			body + 
+			"')";
+
+		execute(sql, false, function(executeResult) {
+			result(executeResult);
+		});	
+	},
+
 	insert_sentMessage: function (userName, message, result) {
 
 		var sql = "INSERT INTO salesforce.sentmessages__c (username__c, message__c) VALUES " +
@@ -88,6 +105,7 @@ module.exports = {
 			result(executeResult);
 		});	
 	},
+
 	insert_bulkBeerCheckins: function (checkinValues, result) {
 
 		var sql = "with data(id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c) as (values " + checkinValues +

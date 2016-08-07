@@ -172,22 +172,20 @@ module.exports = function(app) {
 
 			var twiml = new twilio.TwimlResponse();
 			var message = '';
-// var string = "foo",
-//     substring = "oo";
-// console.log(string.indexOf(substring) !== -1);
 
 			if (body.toLowerCase().indexOf('cool') !== -1)
 			{
-				message = 'To get your current BAC, txt "bac".';
+				message = 'To get your current BAC, txt "bac". To add a drink w/o Untapped txt "new {oz} {abv}".';
 			} else if (body.toLowerCase().indexOf('bac') !== -1) {
-				message = 'prompt bac calc in progress';
+				message = 'Prompt bac calc in progress';
+			} else if (body.toLowerCase().indexOf('new') !== -1) {
+				message = 'new addition in progress';
 			} else {
 				message = 'We did not understand. Txt "COOL" for commands.';
 			}
 
 			twiml.message(message);
 			response.send(twiml);
-
 		});
 	});
 

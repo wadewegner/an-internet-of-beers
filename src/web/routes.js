@@ -212,6 +212,8 @@ module.exports = function(app) {
 					var array = body.split(' ', 2);
 					var ounces = array[1];
 
+					console.log(ounces);
+
 					postgres.get_recentCheckins(userName, function(result){
 
 						console.log(result);

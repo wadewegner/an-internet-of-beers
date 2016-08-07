@@ -84,6 +84,8 @@ module.exports = {
 		var sql = "SELECT id, consumed_at__c AT TIME ZONE 'UTC' as consumed_at__c, beer_abv__c, beer_ounces__c FROM salesforce.untappdbeercheckins__c WHERE " + 
 			"user_name__c = '" + userName + "' ORDER BY consumed_at__c ASC limit 1";
 
+		console.log(sql);
+
 		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});

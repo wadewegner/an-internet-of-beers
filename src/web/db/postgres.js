@@ -208,7 +208,7 @@ module.exports = {
 			result(executeResult);
 		});	
 
-	}
+	},
 
 	insert_accessToken: function(accessToken, uid, result) {
 

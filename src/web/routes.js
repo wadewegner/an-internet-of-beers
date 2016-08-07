@@ -212,13 +212,10 @@ module.exports = function(app) {
 					var array = body.split(' ', 2);
 					var ounces = array[1];
 
-
 					postgres.get_lastCheckin(userName, function(result){
-						console.log(result);
 						var id = result.rows[0].id;
 
 						postgres.update_checkin(id, ounces, function(result){
-							console.log(result);
 
 							twiml.message("We've updated your last checkin to " + ounces + " ounces!");
 							response.send(twiml);	

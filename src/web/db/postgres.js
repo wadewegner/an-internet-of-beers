@@ -202,9 +202,7 @@ module.exports = {
 			"    processed__c = false " +
 			"WHERE id = " + id
 
-		console.log(sql)
-
-		execute(sql, true, function(executeResult) {
+		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});	
 

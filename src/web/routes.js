@@ -207,7 +207,7 @@ module.exports = function(app) {
 
 					});
 
-				} else if (body.toLowerCase().indexOf('new') !== -1) {
+				} else if (body.toLowerCase().indexOf('last') !== -1) {
 
 					var array = body.split(' ', 2);
 					var ounces = array[1];

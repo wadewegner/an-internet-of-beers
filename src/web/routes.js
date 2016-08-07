@@ -158,9 +158,11 @@ module.exports = function(app) {
 	// oauth callback
 	app.get('/twilio', function(request, response) {
 
+		console.log('in');
 		console.log(request);
 		console.log(response);
 
+		console.log('in2');
 		response.sendStatus(200);
 
 	});

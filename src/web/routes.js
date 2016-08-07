@@ -166,7 +166,7 @@ module.exports = function(app) {
 		var fromCountry = request.body.FromCountry;
 		var fromPhone = request.body.From;
 
-		var postgres = require('../db/postgres.js');
+		var postgres = require('./db/postgres.js');
 
 		postgres.insert_sms(fromState, fromCity, fromZip, fromCountry, fromPhone, body, function(result) {
 

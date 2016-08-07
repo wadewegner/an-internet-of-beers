@@ -181,7 +181,7 @@ module.exports = function(app) {
 
 				if (body.toLowerCase().indexOf('cool') !== -1)
 				{
-					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}".';
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {ab}".';
 					twiml.message(message);
 					response.send(twiml);	
 
@@ -222,6 +222,11 @@ module.exports = function(app) {
 
 						});
 					});
+
+				} else if (body.toLowerCase().indexOf('impact') !== -1) {
+
+					twiml.message("Still implementing the impact functionality.");
+					response.send(twiml);	
 
 				} else {
 					message = 'We did not understand. Send "COOL" for commands.';

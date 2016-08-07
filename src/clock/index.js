@@ -15,12 +15,6 @@ async.whilst(
 		        console.log('error from trigger: ' + response.getCode());
 		    });
 
-		var url2 = process.env.TRIGGER2_URL;
-		requestify.get(url2)
-			.then(function(response) {
-				console.log('response from trigger2: ' + response.getBody());
-			});
-
         setTimeout(function() {
             callback(null, true);
         }, 60000);

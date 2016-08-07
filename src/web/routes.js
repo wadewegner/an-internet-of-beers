@@ -181,7 +181,7 @@ module.exports = function(app) {
 
 				if (body.toLowerCase().indexOf('cool') !== -1)
 				{
-					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}".';
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}".';
 					twiml.message(message);
 					response.send(twiml);	
 
@@ -206,6 +206,18 @@ module.exports = function(app) {
 						response.send(twiml);	
 
 					});
+
+				} else if (body.toLowerCase().indexOf('new') !== -1) {
+
+					var array = body.split(' ', 2);
+					var ounces = array[1];
+
+					postgres.get_recentCheckins(userName, function(result){
+
+						console.log(result);
+
+					});
+
 				} else {
 					message = 'We did not understand. Txt "COOL" for commands.';
 					twiml.message(message);

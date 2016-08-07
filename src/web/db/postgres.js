@@ -79,7 +79,17 @@ module.exports = {
 		});
 	},
 
-	get_recentCheckins: function (userName, since_datetime, result) {
+	get_recentCheckins: function (userName, result) {
+
+		var sql = "SELECT id, consumed_at__c AT TIME ZONE 'UTC' as consumed_at__c, beer_abv__c, beer_ounces__c FROM salesforce.untappdbeercheckins__c WHERE " + 
+			"user_name__c = '" + userName + "' ORDER BY consumed_at__c ASC limit 1";
+
+		execute(sql, false, function(executeResult) {
+			result(executeResult);
+		});
+	},
+
+	get_lastCheckin: function (userName, since_datetime, result) {
 
 		var sql = "SELECT consumed_at__c AT TIME ZONE 'UTC' as consumed_at__c, beer_abv__c, beer_ounces__c FROM salesforce.untappdbeercheckins__c WHERE " + 
 			"consumed_at__c > '" + since_datetime + "' AND " +

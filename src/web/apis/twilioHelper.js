@@ -1,5 +1,6 @@
 var twilio = require('twilio');
 var postgres = require('../db/postgres.js');
+var bac = require('bac');
 
 module.exports = {
 	sendTxt: function (accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, result) {

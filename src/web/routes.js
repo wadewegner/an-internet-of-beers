@@ -212,12 +212,18 @@ module.exports = function(app) {
 					var array = body.split(' ', 2);
 					var ounces = array[1];
 
-					console.log(ounces);
 
 					postgres.get_lastCheckin(userName, function(result){
 
-						console.log(result);
+						var id = result[0].id;
 
+						postgres.update_checkin(id, ounces, function(result){
+							console.log(result);
+
+							twiml.message('ok');
+							response.send(twiml);	
+
+						});
 					});
 
 				} else {

@@ -195,14 +195,15 @@ module.exports = function(app) {
 
 			console.log(fromPhone);
 
-			var twiml = new twilio.TwimlResponse();
-		    twiml.message('Thanks ' + fromPhone);
+			// var twiml = new twilio.TwimlResponse();
+		    // twiml.message('Thanks ' + fromPhone);
 		    console.log('testing');
-		    console.log(twiml);
-		    response.send(twiml);
+		    var message = 'testing from ' + fromPhone;
+		    // response.send(twiml);
 
 	    	// console.log(request.body);
 	        // response.sendStatus(200);
+	        response.send(message);
 	    }
 	    else {
 	        response.status(403).send('you are not twilio. Buzz off.');

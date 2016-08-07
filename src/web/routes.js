@@ -171,7 +171,21 @@ module.exports = function(app) {
 		postgres.insert_sms(fromState, fromCity, fromZip, fromCountry, fromPhone, body, function(result) {
 
 			var twiml = new twilio.TwimlResponse();
-			twiml.message('Thanks for writing. No commands yet. Try again later.');
+			var message = '';
+// var string = "foo",
+//     substring = "oo";
+// console.log(string.indexOf(substring) !== -1);
+
+			if (body.toLowerCase().indexOf('help') !== -1)
+			{
+				message = 'To get your current BAC, txt "bac".';
+			} else if (body.toLowerCase().indexOf('bac') !== -1) {
+				message = 'prompt bac calc in progress';
+			} else {
+				message = 'We did not understand. Txt "HELP" for commands.';
+			}
+
+			twiml.message(message);
 			response.send(twiml);
 
 		});

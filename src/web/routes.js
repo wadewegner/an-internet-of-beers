@@ -214,7 +214,7 @@ module.exports = function(app) {
 
 					console.log(ounces);
 
-					postgres.get_recentCheckins(userName, function(result){
+					postgres.get_lastCheckin(userName, function(result){
 
 						console.log(result);
 

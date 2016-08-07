@@ -106,17 +106,13 @@ module.exports = function(app) {
 		var trigger = require('./apis/trigger');
 
 		trigger.insertNewCheckins(function(result) {
-			response.send('ok');
-		});
-	});
-
-	// trigger new checkins
-	app.get('/trigger2', function(request, response) {
-
-		var trigger = require('./apis/trigger');
-
-		trigger.processNewCheckins(function(result2) {
-			response.send('ok');
+			console.log('test1');
+			console.log(result);
+			trigger.processNewCheckins(function(result2) {
+				console.log('test2');
+				console.log(result2);
+				response.send('ok');
+			});
 		});
 	});
 

@@ -91,7 +91,9 @@ module.exports = {
 			body + 
 			"')";
 
-		execute(sql, false, function(executeResult) {
+			console.log(sql);
+
+		execute(sql, true, function(executeResult) {
 			result(executeResult);
 		});	
 	},

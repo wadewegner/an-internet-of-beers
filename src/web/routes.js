@@ -165,10 +165,7 @@ module.exports = function(app) {
 
 	    if (twilio.validateExpressRequest(request, authToken)) {
 
-	    	console.log(twilio);
-	        var resp = new twilio.TwimlResponse();
-	        
-	        console.log(resp.message);
+	    	console.log(request.client);
 
 	        response.sendStatus(200);
 	    }

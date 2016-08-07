@@ -165,9 +165,40 @@ module.exports = function(app) {
 
 	    if (twilio.validateExpressRequest(request, authToken)) {
 
-	    	console.log(request.body);
+// 2016-08-07T17:17:20.083398+00:00 app[web.1]: Page: /twilio
+// 2016-08-07T17:17:20.100309+00:00 app[web.1]: { ToCountry: 'US',
+// 2016-08-07T17:17:20.100311+00:00 app[web.1]:   ToState: 'IL',
+// 2016-08-07T17:17:20.100313+00:00 app[web.1]:   SmsMessageSid: 'SMa04221f73bc2b3b9eaadb941fa7b507d',
+// 2016-08-07T17:17:20.100314+00:00 app[web.1]:   NumMedia: '0',
+// 2016-08-07T17:17:20.100315+00:00 app[web.1]:   ToCity: 'WHEELING',
+// 2016-08-07T17:17:20.100315+00:00 app[web.1]:   FromZip: '80918',
+// 2016-08-07T17:17:20.100316+00:00 app[web.1]:   SmsSid: 'SMa04221f73bc2b3b9eaadb941fa7b507d',
+// 2016-08-07T17:17:20.100317+00:00 app[web.1]:   FromState: 'CO',
+// 2016-08-07T17:17:20.100317+00:00 app[web.1]:   SmsStatus: 'received',
+// 2016-08-07T17:17:20.100318+00:00 app[web.1]:   FromCity: 'COLORADO SPRINGS',
+// 2016-08-07T17:17:20.100318+00:00 app[web.1]:   Body: 'Test8',
+// 2016-08-07T17:17:20.100319+00:00 app[web.1]:   FromCountry: 'US',
+// 2016-08-07T17:17:20.100320+00:00 app[web.1]:   To: '+12245883104',
+// 2016-08-07T17:17:20.100320+00:00 app[web.1]:   ToZip: '60090',
+// 2016-08-07T17:17:20.100321+00:00 app[web.1]:   NumSegments: '1',
+// 2016-08-07T17:17:20.100321+00:00 app[web.1]:   MessageSid: 'SMa04221f73bc2b3b9eaadb941fa7b507d',
+// 2016-08-07T17:17:20.100322+00:00 app[web.1]:   AccountSid: 'AC4a8be98fbae816067e0c0517858f56fd',
+// 2016-08-07T17:17:20.100322+00:00 app[web.1]:   From: '+17196610040',
+// 2016-08-07T17:17:20.100323+00:00 app[web.1]:   ApiVersion: '2010-04-01' }
 
-	        response.sendStatus(200);
+			var fromZip = request.body.FromZip;
+			var fromState = request.body.FromState;
+			var fromCity = request.body.FromCity;
+			var body = request.body.Body;
+			var fromCountry = request.body.FromCountry;
+			var fromPhone = request.body.From;
+
+			var twiml = new twilio.TwimlResponse();
+		    twiml.message('Thanks ' + fromPhone);
+		    response.send(twiml);
+
+	    	// console.log(request.body);
+	        // response.sendStatus(200);
 	    }
 	    else {
 	        response.status(403).send('you are not twilio. Buzz off.');

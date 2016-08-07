@@ -164,6 +164,8 @@ module.exports = function(app) {
 		var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
 
 	    if (twilio.validateExpressRequest(request, authToken)) {
+
+	    	console.log(twilio);
 	        var resp = new twilio.TwimlResponse();
 	        
 	        console.log(resp.message);

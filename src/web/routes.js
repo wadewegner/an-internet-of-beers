@@ -68,12 +68,6 @@ module.exports = function(app) {
 		response.locals.lastName = lastName;
 		response.locals.userName = userName;
 
-		// console.log('  cookies: ' + JSON.stringify(cookies)); 
-		// console.log('  accessToken: ' + accessToken);
-		// console.log('  firstName :' + firstName);
-		// console.log('  lastName: ' + lastName);
-		// console.log('  userName: ' + userName);
-
 		next();
 	})
 
@@ -110,9 +104,17 @@ module.exports = function(app) {
 		var trigger = require('./apis/trigger');
 
 		trigger.insertNewCheckins(function(result) {
-			trigger.processNewCheckins(function(result2) {
-				response.send('ok');
-			});
+			response.send('ok');
+		});
+	});
+
+	// trigger new checkins
+	app.get('/trigger2', function(request, response) {
+
+		var trigger = require('./apis/trigger');
+
+		trigger.processNewCheckins(function(result2) {
+			response.send('ok');
 		});
 	});
 
@@ -147,6 +149,14 @@ module.exports = function(app) {
 
 	// oauth callback
 	app.get('/callback', function(request, response) {
+
+		var callback = require('./apis/callback');
+		callback.get(request, response);
+
+	});
+
+	// oauth callback
+	app.get('/twilio', function(request, response) {
 
 		var callback = require('./apis/callback');
 		callback.get(request, response);

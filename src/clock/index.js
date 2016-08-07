@@ -6,10 +6,20 @@ async.whilst(
     function() { return true; },
     function(callback) {
 
-		var url = 'https://aninternetofbeers.com/trigger';
-		requestify.get(url).then(function(response) {
-			console.log('response from trigger: ' + response.getBody());
-		});
+		var url = process.env.TRIGGER_URL;
+		requestify.get(url)
+		    .then(function(response) {
+		        console.log('response from trigger: ' + response.getBody());
+		    })
+		    .fail(function(response) {
+		        console.log('error from trigger: ' + response.getCode());
+		    });
+
+		var url2 = process.env.TRIGGER2_URL;
+		requestify.get(url2)
+			.then(function(response) {
+				console.log('response from trigger2: ' + response.getBody());
+			});
 
         setTimeout(function() {
             callback(null, true);

@@ -15,9 +15,6 @@ module.exports = {
 	checkins: function (userName, accessToken, result) {
 
 		var url = 'https://api.untappd.com/v4/user/checkins/{0}?access_token={1}'.format(userName, accessToken);
-
-		// console.log('url: ' + url);
-
 		var requestify = require('requestify');
 
 		requestify.get(url).then(function(response) {

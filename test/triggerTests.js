@@ -16,6 +16,7 @@ describe('Trigger', function() {
 		it('should check for new checkins and insert into database', function(done) {
 
 			trigger.insertNewCheckins(function(results) {
+				console.log('back');
 				done();
 			});
 		});

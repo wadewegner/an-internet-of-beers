@@ -220,7 +220,7 @@ module.exports = function(app) {
 						postgres.update_checkin(id, ounces, function(result){
 							console.log(result);
 
-							twiml.message('ok');
+							twiml.message("We've updated your last checkin to " + ounces " ounces!");
 							response.send(twiml);	
 
 						});

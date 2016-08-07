@@ -43,7 +43,9 @@ module.exports = {
 
 				twilio.sendTxt(accountSid, authToken, processedPhone, fromPhoneNumber, message, function(result2) {
 
-					postgres.get_userfromphone(processedPhone, function(userName){
+					postgres.get_userfromphone(processedPhone, function(result3){
+
+						var userName = result3.rows[0].user_name__c;
 
 						postgres.insert_sentMessage(userName, message, function(result3){
 							response.render('pages/profile', {weight, isMale, mobilePhone, updated});

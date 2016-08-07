@@ -165,7 +165,7 @@ module.exports = function(app) {
 
 	    if (twilio.validateExpressRequest(request, authToken)) {
 
-	    	console.log(request.client);
+	    	console.log(request.body);
 
 	        response.sendStatus(200);
 	    }

@@ -52,7 +52,7 @@ module.exports = {
 	update_processCheckins: function(id, result) {
 		var sql = "UPDATE salesforce.untappdbeercheckins__c " +
 			"SET processed__c = true " +
-			"WHERE bid__c = '" + id + "'"
+			"WHERE id = '" + id + "'"
 
 		execute(sql, false, function(executeResult) {
 			result(executeResult);
@@ -71,7 +71,7 @@ module.exports = {
 	},
 
 	get_unprocessedCheckins: function (result) {
-		var sql = "SELECT bid__c, consumed_at__c, beer_abv__c, beer_ounces__c, user_name__c FROM salesforce.untappdbeercheckins__c WHERE " + 
+		var sql = "SELECT id, bid__c, consumed_at__c, beer_abv__c, beer_ounces__c, user_name__c FROM salesforce.untappdbeercheckins__c WHERE " + 
 			"processed__c is null OR processed__c = false ORDER BY consumed_at__c ASC";
 
 		execute(sql, false, function(executeResult) {
@@ -123,7 +123,7 @@ module.exports = {
 			"(" + beerAbv + ",'" + userName + "'," + ounces + ",'" + consumedAt + "')";
 
 		console.log(sql);
-		
+
 		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});	

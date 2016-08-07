@@ -86,16 +86,21 @@ module.exports = {
 
 			var userCheckins = [];
 
-			async.each(unprocessedCheckins.rows, function(item, callback2){
+			async.eachSeries(unprocessedCheckins.rows, function(item, callback2){
 
 				var consumed_at = new Date(Date.parse(item.consumed_at__c + "+0000"));
 				var now = new Date();
 				var difference = Math.abs(now - consumed_at) / 36e5;
-
+console.log('test');
+// make this id
+				var id = item.id;
 				var beer_id = item.bid__c;
 				var beer_abv = item.beer_abv__c;
 				var beer_ounces = item.beer_ounces__c;
 				var user_name = item.user_name__c;
+
+console.log('test2');
+console.log(id);
 
 				// check to see if it's in the last 6 hours
 				if (difference < 6)
@@ -106,7 +111,7 @@ module.exports = {
 				}
 
 				// update record and mark as processed
-				postgres.update_processCheckins(item.bid__c, function(){
+				postgres.update_processCheckins(item.id, function(){
 					callback2();
 				});
 				// callback2();
@@ -158,7 +163,7 @@ module.exports = {
 							var authToken = process.env.TWILIO_TOKEN;
 							var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
 							var sendTxt = process.env.SEND_TXT;
-							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
+							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago & drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
 						
 							console.log(userName + ': ' + message);
 

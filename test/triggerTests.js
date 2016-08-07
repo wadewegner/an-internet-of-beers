@@ -13,13 +13,13 @@ describe('Trigger', function() {
 	});
 
 	describe('New Checkins', function() {
-		it('should check for new checkins and insert into database', function(done) {
+		// it('should check for new checkins and insert into database', function(done) {
 
-			trigger.insertNewCheckins(function(results) {
-				console.log('back');
-				done();
-			});
-		});
+		// 	trigger.insertNewCheckins(function(results) {
+		// 		console.log('back');
+		// 		done();
+		// 	});
+		// });
 
 		it('should process new checkins and send updated BAC values', function(done) {
 

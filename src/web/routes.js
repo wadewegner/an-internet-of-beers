@@ -1,6 +1,7 @@
 var config = require('./config/config.js');
 var request = require('request');
 var twilio = require('twilio');
+var bac = require('bac')
 
 function parseCookies (request) {
 	var list = {},
@@ -220,7 +221,7 @@ module.exports = function(app) {
 
 						});
 					});
-					
+
 				} else if (body.toLowerCase().indexOf('new') !== -1) {
 					message = 'Ability to add new beers in progress.';
 				} else {

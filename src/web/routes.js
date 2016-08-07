@@ -175,11 +175,11 @@ module.exports = function(app) {
 
 			if (body.toLowerCase().indexOf('cool') !== -1)
 			{
-				message = 'To get your current BAC, txt "bac". To add a drink w/o Untapped txt "new {oz} {abv}".';
+				message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}".';
 			} else if (body.toLowerCase().indexOf('bac') !== -1) {
-				message = 'Prompt bac calc in progress';
+				message = 'Prompt bac calc in progress.';
 			} else if (body.toLowerCase().indexOf('new') !== -1) {
-				message = 'new addition in progress';
+				message = 'Ability to add new beers in progress.';
 			} else {
 				message = 'We did not understand. Txt "COOL" for commands.';
 			}

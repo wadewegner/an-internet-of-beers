@@ -158,7 +158,7 @@ module.exports = {
 							var authToken = process.env.TWILIO_TOKEN;
 							var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
 							var sendTxt = process.env.SEND_TXT;
-							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Txt "COOL" for commands.';
+							var message = 'You just checked in! You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
 						
 							console.log(userName + ': ' + message);
 

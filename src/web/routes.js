@@ -161,6 +161,8 @@ module.exports = function(app) {
 		console.log(request);
 		console.log(response);
 
+		response.sendStatus(200);
+
 	});
 
 	// logout

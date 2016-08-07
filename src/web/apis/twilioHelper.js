@@ -24,7 +24,6 @@ module.exports = {
 
 		postgres.get_profile(userName, function(profile) {
 
-			console.log('test1');
 			var toPhoneNumber = profile.rows[0].mobile_phone__c;
 			var weight = profile.rows[0].weight__c;
 			var isMale = profile.rows[0].male__c;
@@ -36,7 +35,6 @@ module.exports = {
 			var since = new Date(now - 360 * 60000).toISOString();
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
-			console.log('test2');
 				var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
 				var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
 
@@ -50,7 +48,6 @@ module.exports = {
 						ounces: (recentCheckins.rows[i].beer_ounces__c / 100)
 					});
 				};
-			console.log('test3');
 				var weightInKgs = bac.poundsToKgs(weight);
 				var waterPercentage = bac.waterPercentage(isMale);
 				var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
@@ -58,7 +55,6 @@ module.exports = {
 				var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
 
 				message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
-			console.log(message);
 				result(message);
 			});
 		});

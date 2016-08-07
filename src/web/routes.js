@@ -202,7 +202,6 @@ module.exports = function(app) {
 					postgres.insert_beerCheckin(abv, userName, ounces, new Date().toISOString(), function(result){
 
 						message = "Received your additional drink! You'll receive an updated BAC shortly.";
-						console.log(message);
 						twiml.message(message);
 						response.send(twiml);	
 

@@ -181,6 +181,9 @@ module.exports = function(app) {
 				if (body.toLowerCase().indexOf('cool') !== -1)
 				{
 					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}".';
+					twiml.message(message);
+					response.send(twiml);	
+
 				} else if (body.toLowerCase().indexOf('bac') !== -1) {
 
 					postgres.get_profile(userName, function(profile) {
@@ -219,17 +222,20 @@ module.exports = function(app) {
 
 							message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
 
+							twiml.message(message);
+							response.send(twiml);	
 						});
 					});
 
 				} else if (body.toLowerCase().indexOf('new') !== -1) {
 					message = 'Ability to add new beers in progress.';
+					twiml.message(message);
+					response.send(twiml);	
 				} else {
 					message = 'We did not understand. Txt "COOL" for commands.';
+					twiml.message(message);
+					response.send(twiml);	
 				}
-
-				twiml.message(message);
-				response.send(twiml);	
 			})
 		});
 	});

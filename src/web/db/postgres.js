@@ -117,6 +117,18 @@ module.exports = {
 		});	
 	},
 
+	insert_beerCheckin: function(beerAbv, userName, ounces, consumedAt, result) {
+
+		var sql = "INSERT INTO salesforce.untappdbeercheckins__c (beer_abv__c, user_name__c, beer_ounces__c, consumed_at__c) VALUES " +
+			"(" + beerAbv + ",'" + userName + "'," + ounces + ",'" + consumedAt + "')";
+
+		console.log(sql);
+		
+		execute(sql, false, function(executeResult) {
+			result(executeResult);
+		});	
+	},
+
 	insert_bulkBeerCheckins: function (checkinValues, result) {
 
 		var sql = "with data(id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c) as (values " + checkinValues +

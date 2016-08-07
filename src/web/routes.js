@@ -228,9 +228,24 @@ module.exports = function(app) {
 					});
 
 				} else if (body.toLowerCase().indexOf('new') !== -1) {
-					message = 'Ability to add new beers in progress.';
-					twiml.message(message);
-					response.send(twiml);	
+
+					var array = body.split(' ', 3);
+
+					var ounces = array[1];
+					var abv = array[2];
+
+					console.log(ounces);
+					console.log(abv);
+
+					postgres.insert_beerCheckin(abv, userName, ounces, new Date().toISOString(), function(result){
+
+						console.log(result);
+
+						message = "Received your additional drink! You'll receive an updated BAC shortly.";
+						twiml.message(message);
+						response.send(twiml);	
+
+					});
 				} else {
 					message = 'We did not understand. Txt "COOL" for commands.';
 					twiml.message(message);

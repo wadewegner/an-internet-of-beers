@@ -176,13 +176,13 @@ module.exports = function(app) {
 //     substring = "oo";
 // console.log(string.indexOf(substring) !== -1);
 
-			if (body.toLowerCase().indexOf('help') !== -1)
+			if (body.toLowerCase().indexOf('cool') !== -1)
 			{
 				message = 'To get your current BAC, txt "bac".';
 			} else if (body.toLowerCase().indexOf('bac') !== -1) {
 				message = 'prompt bac calc in progress';
 			} else {
-				message = 'We did not understand. Txt "HELP" for commands.';
+				message = 'We did not understand. Txt "COOL" for commands.';
 			}
 
 			twiml.message(message);

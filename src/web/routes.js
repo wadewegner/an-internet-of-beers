@@ -188,10 +188,8 @@ module.exports = function(app) {
 				} else if (body.toLowerCase().indexOf('bac') !== -1) {
 
 					twilioHelper.getCurrentBac(userName, function(result) {
-						console.log(result);
-						console.log('hello');
-						var resp = result;
-						response.send(resp);
+						twiml.message(result);
+						response.send(twiml);
 					});
 
 				} else if (body.toLowerCase().indexOf('new') !== -1) {

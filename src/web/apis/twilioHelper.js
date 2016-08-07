@@ -38,27 +38,32 @@ module.exports = {
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 
-				var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
-				var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
+				if (recentCheckins.rows[0] !== null)
+				{
+					var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
+					var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
 
-				var count = recentCheckins.rowCount;
-				var beers = [];
+					var count = recentCheckins.rowCount;
+					var beers = [];
 
-				//TODO: async?
-				for (var i = 0; i < count; i++) {
-					beers.push({
-						abv: recentCheckins.rows[i].beer_abv__c,
-						ounces: (recentCheckins.rows[i].beer_ounces__c / 100)
-					});
-				};
-				var weightInKgs = bac.poundsToKgs(weight);
-				var waterPercentage = bac.waterPercentage(isMale);
-				var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
-				var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-				var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+					//TODO: async?
+					for (var i = 0; i < count; i++) {
+						beers.push({
+							abv: recentCheckins.rows[i].beer_abv__c,
+							ounces: (recentCheckins.rows[i].beer_ounces__c / 100)
+						});
+					};
+					var weightInKgs = bac.poundsToKgs(weight);
+					var waterPercentage = bac.waterPercentage(isMale);
+					var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+					var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+					var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
 
-				message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
-				result(message);
+					message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
+					result(message);
+				} else {
+					restul('No checkins.');
+				}
 			});
 		});
 	}

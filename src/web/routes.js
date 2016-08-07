@@ -170,22 +170,27 @@ module.exports = function(app) {
 
 		postgres.insert_sms(fromState, fromCity, fromZip, fromCountry, fromPhone, body, function(result) {
 
-			var twiml = new twilio.TwimlResponse();
-			var message = '';
+			postgres.get_userfromphone(fromPhone, function(result2){
 
-			if (body.toLowerCase().indexOf('cool') !== -1)
-			{
-				message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}".';
-			} else if (body.toLowerCase().indexOf('bac') !== -1) {
-				message = 'Prompt bac calc in progress.';
-			} else if (body.toLowerCase().indexOf('new') !== -1) {
-				message = 'Ability to add new beers in progress.';
-			} else {
-				message = 'We did not understand. Txt "COOL" for commands.';
-			}
+				console.log(result2);
 
-			twiml.message(message);
-			response.send(twiml);
+				var twiml = new twilio.TwimlResponse();
+				var message = '';
+
+				if (body.toLowerCase().indexOf('cool') !== -1)
+				{
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}".';
+				} else if (body.toLowerCase().indexOf('bac') !== -1) {
+					message = 'Prompt bac calc in progress.';
+				} else if (body.toLowerCase().indexOf('new') !== -1) {
+					message = 'Ability to add new beers in progress.';
+				} else {
+					message = 'We did not understand. Txt "COOL" for commands.';
+				}
+
+				twiml.message(message);
+				response.send(twiml);	
+			})
 		});
 	});
 

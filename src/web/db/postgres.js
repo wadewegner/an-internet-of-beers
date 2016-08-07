@@ -59,6 +59,19 @@ module.exports = {
 		});
 	},
 
+	get_userfromphone: function (phone, result) {
+
+		var sql = "SELECT user_name__c FROM salesforce.untappduser__c WHERE " + 
+			"mobile_phone__c = '" + phone + "'";
+
+		console.log(sql);
+
+		execute(sql, true, function(executeResult) {
+			result(executeResult);
+		});
+
+	},
+
 	get_unprocessedCheckins: function (result) {
 		var sql = "SELECT bid__c, consumed_at__c, beer_abv__c, beer_ounces__c, user_name__c FROM salesforce.untappdbeercheckins__c WHERE " + 
 			"processed__c is null OR processed__c = false ORDER BY consumed_at__c ASC";

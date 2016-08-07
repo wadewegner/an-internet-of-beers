@@ -27,11 +27,30 @@ module.exports = {
 		isMale = false;
 		if (gender == "Male") { isMale = true; }
 
-		postgres.update_profile(response.locals.userName, weight, isMale, phone(mobilePhone)[0], function(result) {
+		var processedPhone = phone(mobilePhone)[0];
+
+		postgres.update_profile(response.locals.userName, weight, isMale, processedPhone, function(result) {
 
 			var updated = true;
 
-			response.render('pages/profile', {weight, isMale, mobilePhone, updated});
+			// send text
+			var twilio = require('./twilioHelper.js');
+			var accountSid = process.env.TWILIO_SID;
+			var authToken = process.env.TWILIO_TOKEN;
+			var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
+			var sendTxt = process.env.SEND_TXT;
+			var message = 'Thanks for signing up! Send "COOL" for commands.';
+
+				twilio.sendTxt(accountSid, authToken, processedPhone, fromPhoneNumber, message, function(result2) {
+
+					postgres.get_userfromphone(processedPhone, function(userName){
+
+						postgres.insert_sentMessage(userName, message, function(result3){
+							response.render('pages/profile', {weight, isMale, mobilePhone, updated});
+						});
+
+					});
+				});
 		});
 	}
 };

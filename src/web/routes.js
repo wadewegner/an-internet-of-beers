@@ -166,10 +166,12 @@ module.exports = function(app) {
 	    if (twilio.validateExpressRequest(request, authToken)) {
 	        var resp = new twilio.TwimlResponse();
 	        
-	        console.log(resp);
+	        console.log(resp.message);
+
+	        response.sendStatus(200);
 	    }
 	    else {
-	        res.status(403).send('you are not twilio. Buzz off.');
+	        response.status(403).send('you are not twilio. Buzz off.');
 	    }
 
 	});

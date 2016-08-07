@@ -190,8 +190,8 @@ module.exports = function(app) {
 					twilioHelper.getCurrentBac(userName, function(result) {
 						console.log(result);
 						console.log('hello');
-						var response = result;
-						response.send(response);
+						var resp = result;
+						response.send(resp);
 					});
 
 				} else if (body.toLowerCase().indexOf('new') !== -1) {

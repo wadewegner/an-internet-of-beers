@@ -64,9 +64,7 @@ module.exports = {
 		var sql = "SELECT user_name__c FROM salesforce.untappduser__c WHERE " + 
 			"mobile_phone__c = '" + phone + "'";
 
-		console.log(sql);
-
-		execute(sql, true, function(executeResult) {
+		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});
 

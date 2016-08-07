@@ -172,7 +172,7 @@ module.exports = function(app) {
 
 			postgres.get_userfromphone(fromPhone, function(result2){
 
-				console.log(result2[0].user_name__c);
+				console.log(result2.user_name__c);
 
 				var twiml = new twilio.TwimlResponse();
 				var message = '';

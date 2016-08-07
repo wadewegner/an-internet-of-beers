@@ -172,7 +172,7 @@ module.exports = function(app) {
 
 			postgres.get_userfromphone(fromPhone, function(result2){
 
-				console.log(result2.rows[0].user_name__c);
+				var userName = result2.rows[0].user_name__c;
 
 				var twiml = new twilio.TwimlResponse();
 				var message = '';
@@ -181,7 +181,46 @@ module.exports = function(app) {
 				{
 					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}".';
 				} else if (body.toLowerCase().indexOf('bac') !== -1) {
-					message = 'Prompt bac calc in progress.';
+
+					postgres.get_profile(userName, function(profile) {
+
+						var toPhoneNumber = profile.rows[0].mobile_phone__c;
+						var weight = profile.rows[0].weight__c;
+						var isMale = profile.rows[0].male__c;
+
+						//TODO: get this from profile;
+						var metabolism = .012;
+						var now = new Date();
+						// last 6 hours; 60 minutes
+						var since = new Date(now - 360 * 60000).toISOString();
+
+						postgres.get_recentCheckins(userName, since, function(recentCheckins) {
+
+							var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
+							var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
+
+							var count = recentCheckins.rowCount;
+							var beers = [];
+
+							//TODO: async?
+							for (var i = 0; i < count; i++) {
+								beers.push({
+									abv: recentCheckins.rows[i].beer_abv__c,
+									ounces: (recentCheckins.rows[i].beer_ounces__c / 100)
+								});
+							};
+
+							var weightInKgs = bac.poundsToKgs(weight);
+							var waterPercentage = bac.waterPercentage(isMale);
+							var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+							var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+							var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+
+							message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
+
+						});
+					});
+					
 				} else if (body.toLowerCase().indexOf('new') !== -1) {
 					message = 'Ability to add new beers in progress.';
 				} else {

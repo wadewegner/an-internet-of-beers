@@ -1,5 +1,6 @@
 var config = require('./config/config.js');
 var request = require('request');
+var twilio = require('twilio');
 
 function parseCookies (request) {
 	var list = {},
@@ -158,12 +159,18 @@ module.exports = function(app) {
 	// oauth callback
 	app.post('/twilio', function(request, response) {
 
-		console.log('in');
-		console.log(request);
-		console.log(response);
+		var accountSid = process.env.TWILIO_SID;
+		var authToken = process.env.TWILIO_TOKEN;
+		var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;
 
-		console.log('in2');
-		response.sendStatus(200);
+	    if (twilio.validateExpressRequest(req, authToken)) {
+	        var resp = new twilio.TwimlResponse();
+	        
+	        console.log(resp);
+	    }
+	    else {
+	        res.status(403).send('you are not twilio. Buzz off.');
+	    }
 
 	});
 

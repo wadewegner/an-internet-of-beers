@@ -79,6 +79,15 @@ module.exports = {
 		});
 	},
 
+	insert_sentMessage: function (userName, message, result) {
+
+		var sql = "INSERT INTO salesforce.sentmessages__c (username__c, message__c) VALUES " +
+			"('" + userName + "', '" + message + "')";
+
+		execute(sql, false, function(executeResult) {
+			result(executeResult);
+		});	
+	},
 	insert_bulkBeerCheckins: function (checkinValues, result) {
 
 		var sql = "with data(id, checkin_id__c, created_at__c, consumed_at__c, bid__c, beer_abv__c, name, user_name__c, beer_ounces__c, stomach_fullness__c) as (values " + checkinValues +

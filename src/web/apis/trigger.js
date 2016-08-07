@@ -171,7 +171,9 @@ module.exports = {
 
 							if (sendTxt == '1') {
 								twilio.sendTxt(accountSid, authToken, toPhoneNumber, fromPhoneNumber, message, function(result) {
-									callback3();
+									postgres.insert_sentMessage(userName, message, function(result){
+										callback3();
+									});
 								});
 							} else {
 								callback3();

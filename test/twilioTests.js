@@ -1,5 +1,5 @@
 var assert = require('chai').assert;
-var twilio = require('../src/web/apis/twilio.js');
+var twilio = require('../src/web/apis/twilioHelper.js');
 
 require('dotenv').load();
 

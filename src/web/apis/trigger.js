@@ -158,7 +158,7 @@ console.log(id);
 							var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
 
 							// send text
-							var twilio = require('./twilio.js');
+							var twilio = require('./twilioHelper.js');
 							var accountSid = process.env.TWILIO_SID;
 							var authToken = process.env.TWILIO_TOKEN;
 							var fromPhoneNumber = process.env.TWILIO_PHONENUMBER;

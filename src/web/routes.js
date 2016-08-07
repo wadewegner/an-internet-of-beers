@@ -198,6 +198,7 @@ module.exports = function(app) {
 			var twiml = new twilio.TwimlResponse();
 		    twiml.message('Thanks ' + fromPhone);
 		    console.log('testing');
+		    console.log(twiml);
 		    response.send(twiml);
 
 	    	// console.log(request.body);

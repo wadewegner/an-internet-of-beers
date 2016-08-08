@@ -40,6 +40,7 @@ module.exports = {
 
 				if (recentCheckins.rows[0] !== null)
 				{
+					console.log('recentCheckins: ' + recentCheckins);
 					console.log('recentCheckins.rows[0]: ' + recentCheckins.rows[0]);
 					var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
 					var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;

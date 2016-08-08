@@ -152,6 +152,11 @@ module.exports = {
 							var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
 							var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
 
+							// don't report negative
+							if (bacAfterElapsedTime < 0) {
+								bacAfterElapsedTime = 0;
+							}
+
 							// send text
 							var twilio = require('./twilioHelper.js');
 							var accountSid = process.env.TWILIO_SID;

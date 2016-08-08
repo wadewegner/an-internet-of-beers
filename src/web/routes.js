@@ -193,7 +193,7 @@ module.exports = function(app) {
 
 					var ounces = array[1];
 					var abv = array[2];
-
+  
 					postgres.insert_beerCheckin(abv, userName, ounces, new Date().toISOString(), function(result){
 
 						message = "Received your additional drink! You'll receive an updated BAC shortly.";
@@ -225,11 +225,8 @@ module.exports = function(app) {
 				} else if (command == 'future') {
 
 					var hours = array[1];
-					console.log('hours: ' + hours);
 					var now = new Date();
-					console.log('now: ' + now);
 					var futureDate = new Date(now.getTime() + (hours * 60) * 60000);
-					console.log('future date: ' + futureDate)
 
 					twilioHelper.getBac(userName, futureDate, function(result) {
 						twiml.message(result);

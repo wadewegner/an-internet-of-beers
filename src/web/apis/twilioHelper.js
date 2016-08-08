@@ -30,13 +30,9 @@ module.exports = {
 
 			//TODO: get this from profile;
 			var metabolism = .012;
-			// var now = new Date();
-			// last 6 hours; 60 minutes
-			console.log(new Date(dateTime - 360 * 60000));
-			console.log(new Date(dateTime.getTime() - 360 * 60000))
 
+			// last 6 hours; 360 minutes
 			var since = new Date(dateTime - 360 * 60000).toISOString();
-			console.log('since: ' + since);
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 				if (recentCheckins.rowCount > 0)
@@ -59,6 +55,11 @@ module.exports = {
 					var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 					var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
 					var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+
+					// don't report negative
+					if (bacAfterElapsedTime < 0) {
+						bacAfterElapsedTime = 0;
+					}
 
 					message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
 					result(message);

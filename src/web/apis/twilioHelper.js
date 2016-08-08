@@ -33,6 +33,7 @@ module.exports = {
 			// var now = new Date();
 			// last 6 hours; 60 minutes
 			var since = new Date(dateTime - 360 * 60000).toISOString();
+			console.log('since: ' + since);
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 				if (recentCheckins.rowCount > 0)

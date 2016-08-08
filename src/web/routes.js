@@ -225,11 +225,11 @@ module.exports = function(app) {
 				} else if (command == 'future') {
 
 					var hours = array[1];
-					console.log(hours);
+					console.log('hours: ' + hours);
 					var now = new Date();
-					console.log(now);
+					console.log('now: ' + now);
 					var futureDate = new Date(now + (hours * 60) * 60000);
-					console.log(futureDate)
+					console.log('future date: ' + futureDate)
 
 					twilioHelper.getBac(userName, futureDate, function(result) {
 						twiml.message(result);

@@ -228,7 +228,7 @@ module.exports = function(app) {
 					console.log('hours: ' + hours);
 					var now = new Date();
 					console.log('now: ' + now);
-					var futureDate = new Date(now + (hours * 60) * 60000);
+					var futureDate = new Date(now.getTime() + (hours * 60) * 60000);
 					console.log('future date: ' + futureDate)
 
 					twilioHelper.getBac(userName, futureDate, function(result) {

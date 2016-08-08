@@ -171,22 +171,25 @@ module.exports = function(app) {
 				var twiml = new twilio.TwimlResponse();
 				var message = '';
 
-				if (body.toLowerCase().indexOf('cool') !== -1)
+				var array = body.split(' ');
+				var command = array[0].toLowerCase();
+
+				if (command == 'cool')
 				{
-					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {abv}".';
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {abv}". To predict your future BAC, send "future {hours}".';
 					twiml.message(message);
 					response.send(twiml);	
 
-				} else if (body.toLowerCase().indexOf('bac') !== -1) {
+				} else if (command == 'bac') {
 
-					twilioHelper.getCurrentBac(userName, function(result) {
+					var now = new Date();
+
+					twilioHelper.getBac(userName, now, function(result) {
 						twiml.message(result);
 						response.send(twiml);
 					});
 
-				} else if (body.toLowerCase().indexOf('new') !== -1) {
-
-					var array = body.split(' ', 3);
+				} else if (command == 'new') {
 
 					var ounces = array[1];
 					var abv = array[2];
@@ -199,9 +202,8 @@ module.exports = function(app) {
 
 					});
 
-				} else if (body.toLowerCase().indexOf('last') !== -1) {
+				} else if (command == 'last') {
 
-					var array = body.split(' ', 2);
 					var ounces = array[1];
 
 					postgres.get_lastCheckin(userName, function(result){
@@ -215,15 +217,27 @@ module.exports = function(app) {
 						});
 					});
 
-				} else if (body.toLowerCase().indexOf('impact') !== -1) {
+				} else if (command == 'impact') {
 
 					twiml.message("Still implementing the impact functionality.");
 					response.send(twiml);	
 
+				} else if (command == 'future') {
+
+					var hours = array[1];
+					var futureDate = new Date(now - hours * 60 * 60000);
+					
+					twilioHelper.getBac(userName, futureDate, function(result) {
+						twiml.message(result);
+						response.send(twiml);
+					});
+
 				} else {
+
 					message = 'We did not understand. Send "COOL" for commands.';
 					twiml.message(message);
-					response.send(twiml);	
+					response.send(twiml);
+
 				}
 			})
 		});

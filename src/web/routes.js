@@ -226,7 +226,8 @@ module.exports = function(app) {
 
 					var hours = array[1];
 					var futureDate = new Date(now - hours * 60 * 60000);
-					
+					console.log(futureDate)
+
 					twilioHelper.getBac(userName, futureDate, function(result) {
 						twiml.message(result);
 						response.send(twiml);

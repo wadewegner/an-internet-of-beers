@@ -16,8 +16,7 @@ function buildCheckinValues(checkins) {
 		var beerId = checkins[i].beer.bid;
 		var beerAbv = checkins[i].beer.beer_abv;
 		var beerName = checkins[i].beer.beer_name;
-		beerName = beerName.replace("'", "''");
-
+		beerName = beerName.replace(new RegExp("'", "g"), "''");
 		var beerOunces = 16;
 		var stomachFullness = 0;
 
@@ -57,10 +56,11 @@ module.exports = {
 
 		postgres.get_tokens(function(tokenResult) {
 
-			async.each(tokenResult.rows, function(item, callback2){
+			async.eachSeries(tokenResult.rows, function(item, callback2){
 
 				var accessToken = item.token;
 				var userName = item.uid;
+
 
 				untappd.checkins(userName, accessToken, function(checkins) {
 
@@ -86,7 +86,7 @@ module.exports = {
 
 			var userCheckins = [];
 
-			async.eachSeries(unprocessedCheckins.rows, function(item, callback2){
+			async.each(unprocessedCheckins.rows, function(item, callback2){
 
 				var consumed_at = new Date(Date.parse(item.consumed_at__c + "+0000"));
 				var now = new Date();

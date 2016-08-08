@@ -132,8 +132,6 @@ module.exports = {
 		var sql = "INSERT INTO salesforce.untappdbeercheckins__c (beer_abv__c, user_name__c, beer_ounces__c, consumed_at__c) VALUES " +
 			"(" + beerAbv + ",'" + userName + "'," + ounces + ",'" + consumedAt + "')";
 
-		console.log(sql);
-
 		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});	

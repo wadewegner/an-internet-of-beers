@@ -64,7 +64,7 @@ module.exports = {
 					message = 'You started drinking ' + totalTimeInHours.toFixed(2) + ' hours ago and drank ' + count + ' beers. Your bac is ' + bacAfterElapsedTime.toFixed(3) + '. Send "COOL" for commands.';
 					result(message);
 				} else {
-					restul('No checkins.');
+					result('No checkins.');
 				}
 			});
 		});

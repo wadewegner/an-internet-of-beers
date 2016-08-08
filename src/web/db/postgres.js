@@ -85,9 +85,7 @@ module.exports = {
 			"consumed_at__c > '" + since_datetime + "' AND " +
 			"user_name__c = '" + userName + "' ORDER BY consumed_at__c ASC";
 
-		console.log(sql);
-
-		execute(sql, true, function(executeResult) {
+		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});
 	},

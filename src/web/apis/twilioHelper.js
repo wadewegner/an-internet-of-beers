@@ -36,7 +36,7 @@ module.exports = {
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 
-				if (recentCheckins.rows != null)
+				if (recentCheckins.rows != null && recentCheckins.rows[0].consumed_at__c != null)
 				{
 					console.log('recentCheckins.rows[0].consumed_at__c: ' + recentCheckins.rows[0].consumed_at__c);
 					var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);

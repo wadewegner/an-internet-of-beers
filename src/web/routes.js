@@ -227,6 +227,7 @@ module.exports = function(app) {
 					var hours = array[1];
 					console.log(hours);
 					var now = new Date();
+					console.log(now);
 					var futureDate = new Date(now + (hours * 60) * 60000);
 					console.log(futureDate)
 

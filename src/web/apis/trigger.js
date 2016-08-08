@@ -56,7 +56,7 @@ module.exports = {
 
 		postgres.get_tokens(function(tokenResult) {
 
-			async.eachSeries(tokenResult.rows, function(item, callback2){
+			async.each(tokenResult.rows, function(item, callback2){
 
 				var accessToken = item.token;
 				var userName = item.uid;

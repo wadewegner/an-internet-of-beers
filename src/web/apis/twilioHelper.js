@@ -36,9 +36,7 @@ module.exports = {
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 
-				console.log(recentCheckins);
-				
-				if (recentCheckins.rows != null && recentCheckins.rows[0] != null)
+				if (recentCheckins.rowCount > 0)
 				{
 					var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
 					var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;

@@ -91,13 +91,11 @@ module.exports = {
 				var consumed_at = new Date(Date.parse(item.consumed_at__c + "+0000"));
 				var now = new Date();
 				var difference = Math.abs(now - consumed_at) / 36e5;
-// make this id
 				var id = item.id;
 				var beer_id = item.bid__c;
 				var beer_abv = item.beer_abv__c;
 				var beer_ounces = item.beer_ounces__c;
 				var user_name = item.user_name__c;
-
 
 				// check to see if it's in the last 6 hours
 				if (difference < 6)

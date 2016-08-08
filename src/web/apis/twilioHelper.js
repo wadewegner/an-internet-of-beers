@@ -38,7 +38,7 @@ module.exports = {
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
 
-				if (!recentCheckins.rows[0] == null)
+				if (!recentCheckins.rows == null)
 				{
 					console.log('recentCheckins: ' + recentCheckins);
 					console.log('recentCheckins.rows[0]: ' + recentCheckins.rows[0]);

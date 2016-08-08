@@ -32,6 +32,9 @@ module.exports = {
 			var metabolism = .012;
 			// var now = new Date();
 			// last 6 hours; 60 minutes
+			console.log(new Date(dateTime - 360 * 60000));
+			console.log(new Date(dateTime.getTime() - 360 * 60000))
+
 			var since = new Date(dateTime - 360 * 60000).toISOString();
 			console.log('since: ' + since);
 

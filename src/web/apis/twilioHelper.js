@@ -20,7 +20,7 @@ module.exports = {
 		});
 	},
 
-	getCurrentBac: function (userName, result) {
+	getBac: function (userName, dateTime, result) {
 
 		postgres.get_profile(userName, function(profile) {
 
@@ -30,16 +30,15 @@ module.exports = {
 
 			//TODO: get this from profile;
 			var metabolism = .012;
-			var now = new Date();
+			// var now = new Date();
 			// last 6 hours; 60 minutes
-			var since = new Date(now - 360 * 60000).toISOString();
+			var since = new Date(dateTime - 360 * 60000).toISOString();
 
 			postgres.get_recentCheckins(userName, since, function(recentCheckins) {
-
-				if (recentCheckins.rowCount > 0)
+||				if (recentCheckins.rowCount > 0)
 				{
 					var earliestDrinkAt = new Date(recentCheckins.rows[0].consumed_at__c);
-					var totalTimeInHours = Math.abs(now - earliestDrinkAt) / 36e5;
+					var totalTimeInHours = Math.abs(dateTime - earliestDrinkAt) / 36e5;
 
 					var count = recentCheckins.rowCount;
 					var beers = [];

@@ -125,6 +125,8 @@ module.exports = function(app) {
 	app.post('/webhook', function (request, response) {
 		messaging_events = request.body.entry[0].messaging;
 
+		console.log(request);
+
 		for (i = 0; i < messaging_events.length; i++) {
 			
 			event = request.body.entry[0].messaging[i];

@@ -130,8 +130,9 @@ module.exports = function(app) {
 			event = request.body.entry[0].messaging[i];
 			sender = event.sender.id;
 
+			// console.log(sender);
+
 			if (event.message && event.message.text) {
-				console.log(event.message);
 				text = event.message.text;
 				// Handle a text message from this sender
 

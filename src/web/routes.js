@@ -157,7 +157,7 @@ module.exports = function(app) {
 					// 	message = result;
 					// });
 
-					message = 'We''ll recalculate and send you an SMS!';
+					message = 'We will recalculate and send you an SMS!';
 
 				} else if (command == 'new') {
 
@@ -198,7 +198,7 @@ module.exports = function(app) {
 					// 	message = result;
 					// });
 
-					message = 'We''ll recalculate and send you a message.';
+					message = 'We will recalculate and send you a message.';
 
 				} else {
 

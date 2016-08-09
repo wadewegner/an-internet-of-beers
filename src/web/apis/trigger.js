@@ -61,7 +61,6 @@ module.exports = {
 				var accessToken = item.token;
 				var userName = item.uid;
 
-
 				untappd.checkins(userName, accessToken, function(checkins) {
 
 					if (checkins != null) {

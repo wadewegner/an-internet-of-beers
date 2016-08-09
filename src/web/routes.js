@@ -127,7 +127,7 @@ module.exports = function(app) {
 
 		for (i = 0; i < messaging_events.length; i++) {
 			
-			console.log(request.body);
+			console.log(event.sender);
 			event = request.body.entry[0].messaging[i];
 			sender = event.sender.id;
 

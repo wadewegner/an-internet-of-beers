@@ -153,9 +153,11 @@ module.exports = function(app) {
 
 					var now = new Date();
 
-					twilioHelper.getBac(userName, now, function(result) {
-						message = result;
-					});
+					// twilioHelper.getBac(userName, now, function(result) {
+					// 	message = result;
+					// });
+
+					message = 'We''ll recalculate and send you an SMS!';
 
 				} else if (command == 'new') {
 
@@ -192,9 +194,11 @@ module.exports = function(app) {
 					var now = new Date();
 					var futureDate = new Date(now.getTime() + (hours * 60) * 60000);
 
-					twilioHelper.getBac(userName, futureDate, function(result) {
-						message = result;
-					});
+					// twilioHelper.getBac(userName, futureDate, function(result) {
+					// 	message = result;
+					// });
+
+					message = 'We''ll recalculate and send you a message.';
 
 				} else {
 

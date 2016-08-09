@@ -147,7 +147,7 @@ module.exports = function(app) {
 
 				if (command == 'cool')
 				{
-					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {abv}". To predict your future BAC, send "future {hours}".';
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To predict your future BAC, send "future {hours}".';
 
 				} else if (command == 'bac') {
 
@@ -164,29 +164,29 @@ module.exports = function(app) {
 					var ounces = array[1];
 					var abv = array[2];
   
-					postgres.insert_beerCheckin(abv, userName, ounces, new Date().toISOString(), function(result){
+					// postgres.insert_beerCheckin(abv, userName, ounces, new Date().toISOString(), function(result){
 
 						message = "Received your additional drink! You'll receive an updated BAC shortly.";
 
-					});
+					// });
 
-				} else if (command == 'last') {
+				// } else if (command == 'last') {
 
-					var ounces = array[1];
+				// 	var ounces = array[1];
 
-					postgres.get_lastCheckin(userName, function(result){
-						var id = result.rows[0].id;
+				// 	postgres.get_lastCheckin(userName, function(result){
+				// 		var id = result.rows[0].id;
 
-						postgres.update_checkin(id, ounces, function(result){
+				// 		postgres.update_checkin(id, ounces, function(result){
 
-							message = "We've updated your last checkin to " + ounces + " ounces!";
+				// 			message = "We've updated your last checkin to " + ounces + " ounces!";
 
-						});
-					});
+				// 		});
+				// 	});
 
-				} else if (command == 'impact') {
+				// } else if (command == 'impact') {
 
-					message = "Still implementing the impact functionality.";
+				// 	message = "Still implementing the impact functionality.";
 
 				} else if (command == 'future') {
 

@@ -144,6 +144,8 @@ module.exports = {
 			"select d.id, d.checkin_id__c, d.created_at__c, d.consumed_at__c, d.bid__c, d.beer_abv__c, d.name, d.user_name__c, d.beer_ounces__c, d.stomach_fullness__c " +
 			"from data d where not exists (select 1 from salesforce.untappdbeercheckins__c u2 where u2.id = d.id)";
 
+		console.log(sql);
+		
 		execute(sql, false, function(executeResult) {
 			result(executeResult);
 		});	

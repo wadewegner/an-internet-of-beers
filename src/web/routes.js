@@ -138,7 +138,70 @@ module.exports = function(app) {
 
 				console.log('  from FB: ' + text);
 
-				sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
+				var userName = "wadewegner";
+
+				var message = '';
+
+				var array = text.split(' ');
+				var command = array[0].toLowerCase();
+
+				if (command == 'cool')
+				{
+					message = 'To get your current BAC, send "bac". To add a drink w/o Untapped send "new {oz} {abv}". To change # of oz, send "last {oz}". To understand the impact of a beer, send "impact {oz} {abv}". To predict your future BAC, send "future {hours}".';
+
+				} else if (command == 'bac') {
+
+					var now = new Date();
+
+					twilioHelper.getBac(userName, now, function(result) {
+						message = result;
+					});
+
+				} else if (command == 'new') {
+
+					var ounces = array[1];
+					var abv = array[2];
+  
+					postgres.insert_beerCheckin(abv, userName, ounces, new Date().toISOString(), function(result){
+
+						message = "Received your additional drink! You'll receive an updated BAC shortly.";
+
+					});
+
+				} else if (command == 'last') {
+
+					var ounces = array[1];
+
+					postgres.get_lastCheckin(userName, function(result){
+						var id = result.rows[0].id;
+
+						postgres.update_checkin(id, ounces, function(result){
+
+							message = "We've updated your last checkin to " + ounces + " ounces!";
+
+						});
+					});
+
+				} else if (command == 'impact') {
+
+					message = "Still implementing the impact functionality.";
+
+				} else if (command == 'future') {
+
+					var hours = array[1];
+					var now = new Date();
+					var futureDate = new Date(now.getTime() + (hours * 60) * 60000);
+
+					twilioHelper.getBac(userName, futureDate, function(result) {
+						message = result;
+					});
+
+				} else {
+
+					message = 'We did not understand. Send "COOL" for commands.';
+				}
+
+				sendTextMessage(sender, message);
 			}
 		}
 		response.sendStatus(200);
